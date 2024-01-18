@@ -1,11 +1,11 @@
 import { Text, TextInput, View } from 'react-native'
 import React, { Component } from 'react'
 
-const InputField =(props:any)=> {
+const InputField =({props,width}:any)=> {
     return (
     <TextInput 
     {...props} 
-    style={{borderRadius:10,width:"90%",fontWeight:"bold",height:50,color:"black",backgroundColor:'white',paddingHorizontal:10,marginHorizontal:20,marginVertical:10}} 
+    style={{width:width,height:30,color:"grey",backgroundColor:'#fff'}} 
     placeholderTextColor={"black"}>
 
     </TextInput>
@@ -13,4 +13,4 @@ const InputField =(props:any)=> {
   }
 
 
-export default InputField
+export default InputField;
