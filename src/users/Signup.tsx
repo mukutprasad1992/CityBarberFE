@@ -8,13 +8,14 @@ import InputField from '../component/InputField'
 import Btn from '../component/Btn'
 import { useNavigation } from '@react-navigation/native'
 import Consumer from './Consumer/Consumer'
+import Provider from './Provider/Provider'
 
 
 const Signup =()=> {
 
     const navigation:any = useNavigation();
 
-    const [checked, setChecked] = useState('first');
+    const [checked, setChecked] = useState("Consumer");
  
     const [data,setData] = useState({
     userName:"",
@@ -22,6 +23,11 @@ const Signup =()=> {
     password:"",
   });
  
+  const handleRadioButtonChange = (value:any) => {
+    setChecked(value);
+  };
+
+
   const isEmailValid = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -62,7 +68,7 @@ const handleSubmit = () =>{
              <InputField 
              width={300} 
              value={data.userName}
-            //  onChangeText={(value:any) => handleInputChange('firstName',value)}
+             onChangeText={(value:any) => handleInputChange(value)}
              />
             </View>
             </View>
@@ -73,7 +79,11 @@ const handleSubmit = () =>{
            <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
              <Image source={require("../../public/images/mail.png")} style={{width:18,height:18,marginTop:5}}/>
              <View style={{marginLeft:20}}>
-             <InputField keyboardType={"email-address"} width={300} value={data.email}/>
+             <InputField
+              keyboardType={"email-address"} 
+              width={300} 
+              value={data.email}
+              onChangeText={(value:any) => handleInputChange(value)}/>
              </View>
            </View>
            </View>
@@ -90,15 +100,20 @@ const handleSubmit = () =>{
         <RadioButton.Group onValueChange={value => setChecked(value)} value={checked}>
          <View style={{flexDirection:"row",justifyContent:"space-around"}}>
           <View style={styles.radioButton}>
-            <RadioButton value="first" />
+            <RadioButton value="Consumer" />
             <Text style={styles.radioButtonText}>Consumer</Text>
           </View>
           <View style={styles.radioButton}>
-            <RadioButton value="second" />
+            <RadioButton value="Provider" />
             <Text style={styles.radioButtonText}>Provider</Text>
           </View>
           </View>
         </RadioButton.Group>
+        {/* {checked === 'Consumer' ? (
+        <Consumer/>
+      ) : (
+        <Provider/>
+      )} */}
       </View>
            
            <View style={{marginBottom:20,marginTop:0}}>

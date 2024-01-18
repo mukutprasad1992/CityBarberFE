@@ -1,25 +1,34 @@
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import React, { Component } from 'react'
 import Background from '../component/Background'
-import Register from '../user/Register'
 import Logo from '../component/Logo'
 import Btn from '../component/Btn'
+import { useNavigation } from '@react-navigation/native'
+
 
 const Home =()=> {
+  const navigation = useNavigation();
+  const handleSignupBtn = () => {
+              navigation.navigate('Signup')
+  }
+  const handleLoginBtn = () => {
+              navigation.navigate("Login")
+  }
+
     return (
       <Background>
        <View style={styles.container}>
       
-       <View  style={styles.logoContainer}>
-        <Logo tintColor={"#fff"} width={100} height={100}/>
-       </View>
        
        <View style={styles.slogan}>
-      <Text style={styles.title}>Quality cuts at a good price</Text>
+      <Text style={styles.title}>City Barber</Text>
        </View>
      
-      <View style={styles.buttonContainer}>
-        <Btn bgColor={"orange"} btnLabel={"Sign up"} textColor={"#fff"} />
+      <View style={styles.signBtn}>
+        <Btn bgColor={"tomato"} btnLabel={"Sign up"} textColor={"#fff"} onPress={handleSignupBtn} />
+      </View>
+      <View style={styles.LoginBtn}>
+        <Btn bgColor={"tomato"} btnLabel={"Login"} textColor={"#fff"} onPress={handleLoginBtn}/>
       </View>
      
 
@@ -32,17 +41,14 @@ const Home =()=> {
     container:{
     flex:1,
     flexDirection:"column",
-    position:"absolute",
-    zIndex:99
-  },
-  logoContainer:{ 
-    position:"absolute",
-    top:40,
-    left:20
+    justifyContent:"center",
+    alignItems:"center"
   },
   slogan:{
     position:"absolute",
-    top:90,
+    justifyContent:"center",
+    alignItems:"center",
+    top:100,
     width:300
   },
     title:{
@@ -52,10 +58,17 @@ const Home =()=> {
       fontSize:24,
       color:"white" 
         },
-        buttonContainer:{
+        signBtn:{
           position:"absolute",
-          top:290,
-          left:40
+          top:590,
+          left:40,
+          width:300
+        },
+        LoginBtn:{
+          position:"absolute",
+          top:490,
+          left:40,
+          width:300
         },
     button:{
         backgroundColor:"black",

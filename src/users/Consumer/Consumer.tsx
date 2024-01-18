@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import InputField from '../../component/InputField'
 import Btn from '../../component/Btn'
 import { useNavigation } from '@react-navigation/native'
-import Home from '../../screens/Home'
+import DashboardConsumer from "./Dashboard/DashboardConsumer"
 
 const Consumer =()=> {
 
@@ -34,7 +34,7 @@ const handleInputChange =({name,value}:any)=>{
 }
 
 const handleSubmit = () =>{
-    navigation.navigate("Home")
+    navigation.navigate(DashboardConsumer)
 //     if(data.userName.trim() === ''&& data.email.trim()==='' && data.password.trim()==='')
 //   setDataError(true);
 //     else{
@@ -51,9 +51,15 @@ const handleSubmit = () =>{
       
       <View style={styles.cart}>
       <View style={styles.cartContainer}>
+      {/* <View style={{justifyContent:"center",alignItems:"center"}}>
+           <TouchableOpacity style={styles.camera}>
+          <Image source={require("../../../public/images/CameraIcon.png")} style={{height:40,width:40}} />
+        </TouchableOpacity>
+        </View> */}
       <View style={{flexDirection:"row",marginBottom:20,justifyContent:"center"}}>
             <Text style={{fontWeight:"800",fontSize:18 , color:"#003f5c"}}>Consumer</Text>
               </View>
+              
            <View style={{flexDirection:"column",marginBottom:15}}>
              <Text style={{fontSize:10}}>Phone</Text>
            <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
@@ -137,11 +143,7 @@ const handleSubmit = () =>{
           </View>
            </View>
            </View>
-           {/* <View style={{justifyContent:"center",alignItems:"center"}}>
-           <TouchableOpacity style={styles.camera}>
-          <Image source={require("../../../public/images/CameraIcon.png")} style={{height:40,width:40}} />
-        </TouchableOpacity>
-        </View> */}
+           
            <View style={{marginBottom:50,marginTop:0}}>
           <Btn bgColor={"tomato"} btnLabel={"Submit"} textColor={"#fff"} onPress={handleSubmit}/>
            </View>

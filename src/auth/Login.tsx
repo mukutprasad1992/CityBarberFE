@@ -1,15 +1,15 @@
-import { Text, TouchableOpacity, View, StyleSheet, Image,SafeAreaView, ScrollView } from 'react-native'
+import { Text, TouchableOpacity, View, StyleSheet, Image,SafeAreaView } from 'react-native'
 import React, { Component, useState } from 'react'
 import Background from '../component/Background'
 import Btn from '../component/Btn'
 import InputField from '../component/InputField'
 
 
-const ResetPasswordScreen =()=> {
+const Login =()=> {
 
     const [data,setData] = useState({
+        email:"",
         password:"",
-        confirmPassword:"",
       });
 
     return (
@@ -18,43 +18,71 @@ const ResetPasswordScreen =()=> {
         <View style={styles.container}>
  
        <Text style={styles.title}>CityBarber</Text>
-      
+       
        <View style={styles.cart}>
        <View style={styles.cartContainer}>
-       
              <View style={{flexDirection:"row",marginBottom:20,justifyContent:"center"}}>
-             <Text style={{fontWeight:"800",fontSize:18 , color:"#003f5c"}}>Reset Password</Text>
+             <Text style={{fontWeight:"800",fontSize:18 , color:"#003f5c"}}>Login</Text>
                </View>
              
              <View style={{flexDirection:"column",marginBottom:15}}>
-              <Text style={{fontSize:10}}>Password</Text>
+              <Text style={{fontSize:10}}>Email</Text>
             <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-              <Image source={require("../../public/images/key.png")} style={{width:18,height:18,marginTop:5}}/>
+              <Image source={require("../../public/images/mail.png")} style={{width:18,height:18,marginTop:5}}/>
               <View style={{marginLeft:20}}>
-              <InputField  width={300} value={data.password}/>
+              <InputField keyboardType={"email-address"} width={300} value={data.email}/>
               </View>
             </View>
             </View>
              <View style={{flexDirection:"column",marginBottom:15}}>
-              <Text style={{fontSize:10}}>Confirm Password</Text>
+              <Text style={{fontSize:10}}>Password</Text>
             <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
               <Image source={require("../../public/images/key.png")} style={{width:18,height:18,marginTop:5}}/>
            <View style={{marginLeft:20}}>
-              <InputField width={300} value={data.password} secureTextEntry={true}/>
+              <InputField keyboardType={"numeric"} width={300} value={data.password} secureTextEntry={true}/>
            </View>
             </View>
             </View>
             <View>
+            <TouchableOpacity>
+                <Text style={{fontSize:10,color:"#003f5c",position:"absolute",right:5,marginTop:10}}>Forget Password?</Text>
+            </TouchableOpacity>
             <View style={{marginBottom:20,marginTop:30}}>
            <Btn bgColor={"tomato"} btnLabel={"Submit"} textColor={"#fff"} />
             </View>
+            <Text style={styles.textsign}>or sign in with</Text>
            
-       </View>
+            <View style={styles.pnglogo}>
+           <TouchableOpacity style={styles.png}>
+             <Image
+               style={styles.png}
+               source={require("../../public/images/google.jpg")}
+             />
+           </TouchableOpacity>
+ 
+           <TouchableOpacity style={styles.png}>
+             <Image
+               style={styles.png}
+               source={require("../../public/images/facebook.jpg")}
+             />
+           </TouchableOpacity>
+ 
+           <TouchableOpacity style={styles.png}>
+             <Image
+               style={styles.png}
+               source={require("../../public/images/twitter.jpg")}
+             />
+           </TouchableOpacity>
+         </View>
 
+ 
+ 
+       </View>
+       
+ 
        </View>
        </View>
        </View>
-
        </SafeAreaView>
        </Background>
      )
@@ -68,6 +96,7 @@ const ResetPasswordScreen =()=> {
      justifyContent:"center",
      alignItems:"center",
      // zIndex:99,
+     height:"100%",
    },
    cartContainer:{
      width:350,
@@ -80,12 +109,11 @@ const ResetPasswordScreen =()=> {
  
      title:{
        fontWeight:'800',
+       position:"absolute",
        fontSize:40,
        fontFamily:"Roboto",
        color:"white" ,
-       top:100,
-       position:"absolute"
-      
+       top:50,
          },
  buttonContainer:{
            position:"absolute",
@@ -94,7 +122,7 @@ const ResetPasswordScreen =()=> {
          },
  cart:{
           position:"absolute",
-          top:350,
+          top:250,
           justifyContent:"center",
           alignItems:"center",
           width:400,
@@ -142,4 +170,4 @@ const ResetPasswordScreen =()=> {
    })
  
 
-export default ResetPasswordScreen
+export default Login
