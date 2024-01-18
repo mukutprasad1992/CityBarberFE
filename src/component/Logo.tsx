@@ -1,17 +1,16 @@
 import { Text, View, Image } from 'react-native'
 import React, { Component } from 'react'
 
-export class Logo extends Component {
-  render() {
+const  Logo =({tintColor,width,height}:any) => {
     return (
       <View>
-             <Image style={{width:300,
-                            height:300,
-                           tintColor:"#000"}} 
+             <Image style={{width:width,
+                            height:height,
+                            tintColor:tintColor}} 
                 source={require("../../public/images/Logo.png")}/>
       </View>
     )
   }
-}
+
 
 export default Logo

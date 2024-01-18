@@ -1,7 +1,7 @@
 import { Text, TextInput, View, StyleSheet, Button , Image, ImageBackground, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
 import React, { Component, useState } from 'react'
 import LinearGradient from 'react-native-linear-gradient';
-import Background from '../screens/Background';
+import Background from '../component/Background';
 import InputField from '../component/InputField';
 import Btn from '../component/Btn';
 import Logo from '../component/Logo';
