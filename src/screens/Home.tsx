@@ -8,7 +8,6 @@ import Signup from "../users/Signup";
 import Login from "../auth/Login";
 
 const Home = () => {
-
   const navigation = useNavigation();
 
   const handleSignupBtn = () => {
@@ -21,7 +20,7 @@ const Home = () => {
   return (
     <Background>
       <View style={styles.container}>
-        <Text style={styles.title}>Quality cuts at a good price</Text>
+        <Text style={styles.title}>City Barber</Text>
 
         <View style={styles.signBtn}>
           <Btn
@@ -55,9 +54,10 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    top: 100,
+    textAlign: "center",
+    top: 200,
     fontWeight: "bold",
-    fontSize: 50,
+    fontSize: 30,
     color: "white",
   },
   signBtn: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   LoginBtn: {
     position: "absolute",
-    top: 490,
+    top: 500,
     left: 40,
     width: 300,
   },

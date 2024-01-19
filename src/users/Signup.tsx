@@ -46,7 +46,8 @@ const Signup = () => {
 
   return (
     <Background>
-      <SafeAreaView>
+      {/* <SafeAreaView> */}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           <Text style={styles.title}>CityBarber</Text>
 
@@ -165,7 +166,7 @@ const Signup = () => {
                   onPress={handleSubmit}
                 />
               </View>
-              <Text style={styles.textsign}>or sign in with</Text>
+              <Text style={styles.textsign}>or</Text>
               <View style={styles.pnglogo}>
                 <TouchableOpacity style={styles.png}>
                   <Image
@@ -191,36 +192,39 @@ const Signup = () => {
             </View>
           </View>
         </View>
-      </SafeAreaView>
+      </ScrollView>
+      {/* </SafeAreaView> */}
     </Background>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    // position:"absolute",
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center",
-    // zIndex:99,
-    height: "100%",
+  },
+
+  container: {
+    height: 700,
+    width: 400,
+    marginTop: 200,
+    marginLeft: 10,
+    borderRadius: 20,
   },
   cartContainer: {
     width: 350,
-    height: "90%",
-    backgroundColor: "#fff",
-    // borderRadius:50,
+    height: "100%",
     margin: 20,
   },
 
   title: {
     fontWeight: "800",
     position: "absolute",
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: "Roboto",
     color: "white",
-    top: 50,
+    top: 0,
+    left: 150,
   },
   buttonContainer: {
     position: "absolute",
@@ -229,22 +233,22 @@ const styles = StyleSheet.create({
   },
   cart: {
     position: "absolute",
-    top: 250,
+    top: 150,
     justifyContent: "center",
     alignItems: "center",
     width: 400,
-    height: 600,
+    height: 500,
     backgroundColor: "#fff",
-    borderRadius: 50,
+    borderRadius: 40,
   },
+
   button: {
     backgroundColor: "black",
     fontSize: 25,
-    top: 290,
+    // top: 290,
     width: 250,
     height: 50,
     marginHorizontal: 120,
-    // marginVertical:120,
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
@@ -254,11 +258,9 @@ const styles = StyleSheet.create({
     // right:-120,
   },
   textsign: {
-    color: "#ddd",
-    position: "absolute",
-    top: 380,
-    left: 125,
+    color: "#003f5c",
     fontSize: 12,
+    marginLeft: "50%",
   },
   png: {
     height: 30,

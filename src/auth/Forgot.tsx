@@ -69,6 +69,33 @@ const Forgot = () => {
                     onPress={handleClick}
                   />
                 </View>
+                <Text
+                  style={{ color: "#003f5c", fontSize: 12, marginLeft: "50%" }}
+                >
+                  or
+                </Text>
+                <View style={styles.pnglogo}>
+                  <TouchableOpacity style={styles.png}>
+                    <Image
+                      style={styles.png}
+                      source={require("../../public/images/google.jpg")}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.png}>
+                    <Image
+                      style={styles.png}
+                      source={require("../../public/images/facebook.jpg")}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.png}>
+                    <Image
+                      style={styles.png}
+                      source={require("../../public/images/twitter.jpg")}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
@@ -99,10 +126,10 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "800",
     position: "absolute",
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: "Roboto",
     color: "white",
-    top: 50,
+    top: 150,
   },
   buttonContainer: {
     position: "absolute",

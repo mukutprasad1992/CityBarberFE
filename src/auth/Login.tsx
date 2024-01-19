@@ -15,13 +15,31 @@ import { useNavigation } from "@react-navigation/native";
 import Dashboard from "../users/Provider/Dashboard/Dashboard";
 
 const Login = () => {
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigation: any = useNavigation();
 
-  const handleClick = () => {
+  const isEmailValid = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // const handleLoginPress = () => {
+  //   if (!isEmailValid(email)) {
+  //     alert("Please enter a valid email address");
+  //     return;
+  //   }
+
+  //   if (password.trim() === "") {
+  //     alert("Please enter a password");
+  //     return;
+  //   }
+
+  //   navigation.navigate("Dashboard");
+  //   return 0;
+  // };
+
+  const handleLoginPress = () => {
     navigation.navigate("Dashboard");
   };
 
@@ -68,7 +86,8 @@ const Login = () => {
                     <InputField
                       keyboardType={"email-address"}
                       width={300}
-                      value={data.email}
+                      value={email}
+                      onChangeText={(text) => setEmail(text)}
                     />
                   </View>
                 </View>
@@ -90,8 +109,9 @@ const Login = () => {
                     <InputField
                       keyboardType={"numeric"}
                       width={300}
-                      value={data.password}
+                      value={password}
                       secureTextEntry={true}
+                      onChangeText={(text) => setPassword(text)}
                     />
                   </View>
                 </View>
@@ -115,10 +135,10 @@ const Login = () => {
                     bgColor={"tomato"}
                     btnLabel={"Submit"}
                     textColor={"#fff"}
-                    onPress={handleClick}
+                    onPress={handleLoginPress}
                   />
                 </View>
-                <Text style={styles.textsign}>or sign in with</Text>
+                <Text style={styles.textsign}>or</Text>
 
                 <View style={styles.pnglogo}>
                   <TouchableOpacity style={styles.png}>
@@ -172,10 +192,10 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "800",
     position: "absolute",
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: "Roboto",
     color: "white",
-    top: 50,
+    top: 150,
   },
   buttonContainer: {
     position: "absolute",
@@ -209,9 +229,9 @@ const styles = StyleSheet.create({
     // right:-120,
   },
   textsign: {
-    color: "#ddd",
+    color: "#003f5c",
     fontSize: 12,
-    marginHorizontal: 120,
+    marginLeft: "50%",
   },
   png: {
     height: 30,
