@@ -1,93 +1,88 @@
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
-import React, { Component } from 'react'
-import Background from '../component/Background'
-import Logo from '../component/Logo'
-import Btn from '../component/Btn'
-import { useNavigation } from '@react-navigation/native'
+import {
+  Text,
+  Dimensions,
+  View,
+  StyleSheet,
+} from "react-native";
+import React from "react";
+import Background from "../component/Background";
+import Btn from "../component/Btn";
+import { useNavigation } from "@react-navigation/native";
+import Login from "../auth/Login";
+import Signup from "../users/Signup";
 
+const { width, height } = Dimensions.get("window");
 
-const Home =()=> {
+const Home = () => {
   const navigation = useNavigation();
-  const handleSignupBtn = () => {
-              navigation.navigate('Signup')
-  }
-  const handleLoginBtn = () => {
-              navigation.navigate("Login")
-  }
 
-    return (
-      <Background>
-       <View style={styles.container}>
-      
-       
-       <View style={styles.slogan}>
-      <Text style={styles.title}>City Barber</Text>
-       </View>
-     
-      <View style={styles.signBtn}>
-        <Btn bgColor={"tomato"} btnLabel={"Sign up"} textColor={"#fff"} onPress={handleSignupBtn} />
-      </View>
-      <View style={styles.LoginBtn}>
-        <Btn bgColor={"tomato"} btnLabel={"Login"} textColor={"#fff"} onPress={handleLoginBtn}/>
-      </View>
-     
-
-      </View>
-      </Background>
-    )
+  const handleLoginBtn = () =>{
+    navigation.navigate(Login)
   }
-
-  const styles = StyleSheet.create({
-    container:{
-    flex:1,
-    flexDirection:"column",
-    justifyContent:"center",
-    alignItems:"center"
-  },
-  slogan:{
-    position:"absolute",
-    justifyContent:"center",
-    alignItems:"center",
-    top:100,
-    width:300
-  },
-    title:{
-      fontWeight:'bold',
-      marginHorizontal:40,
-      marginVertical:60,    
-      fontSize:24,
-      color:"white" 
-        },
-        signBtn:{
-          position:"absolute",
-          top:590,
-          left:40,
-          width:300
-        },
-        LoginBtn:{
-          position:"absolute",
-          top:490,
-          left:40,
-          width:300
-        },
-    button:{
-        backgroundColor:"black",
-        fontSize:25,
-       top:290,
-        width:250,
-        height:50,   
-         marginHorizontal:120,
-       // marginVertical:120,    
-        borderRadius:20,
-        justifyContent:'center',
-        alignItems:"center",
-        position:'absolute',
-        zIndex:1,
+  const handleSubmitBtn = () =>{
+    navigation.navigate(Signup)
+  }
   
-       // right:-120,
-    
-    }
-  })
 
+  return (
+    <Background>
+      <View style={styles.container}>
+        <Text style={styles.title}>CityBarber</Text>
+        <View>
+                <View
+                  style={{
+                    marginBottom: height * (0 / 100),
+                    marginTop: width * (90 / 100),
+                  }}
+                >
+                  <Btn
+                    bgColor={"tomato"}
+                    btnLabel={"Login"}
+                    textColor={"#fff"}
+                    onPress={handleLoginBtn}
+                  />
+                </View>
+              </View>
+        
+        <View>
+                <View
+                  style={{
+                    marginBottom: height * (1 / 100),
+                    marginTop: width * (2 / 100),
+                  }}
+                >
+                  <Btn
+                    bgColor={"tomato"}
+                    btnLabel={"Sign Up"}
+                    textColor={"#fff"}
+                    onPress={handleSubmitBtn}
+                  />
+                </View>
+              </View>
+        
+      </View>
+    </Background>
+  );
+};
 
-export default Home
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+  },
+
+  title: {
+    fontWeight: "800",
+    fontSize: 70 * (width / 700),
+    fontFamily: "Roboto",
+    color: "white",
+    top: height * (15 / 100),
+    position: "absolute",
+  },
+
+ 
+});
+
+export default Home;

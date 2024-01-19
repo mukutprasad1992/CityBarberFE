@@ -6,7 +6,7 @@ const Background = ({ children }: any) => {
     <View style={styles.container}>
       <ImageBackground
         source={require('../../public/images/backgroundImage.jpg')}
-        resizeMode="cover"
+
         style={styles.imageBackground}
       >
         <View style={styles.overlay}>
@@ -23,10 +23,12 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     flex: 1,
+    resizeMode:"cover",
+    height:"100%"
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0)', 
     position: 'relative',
   },
 });
