@@ -1,7 +1,16 @@
 import { Text, TextInput, View } from "react-native";
 import React, { Component } from "react";
 
-const InputField = ({ props, width, borderBottomWidth }: any) => {
+const InputField = ({
+  props,
+  width,
+  borderBottomWidth,
+  value,
+  onChangeText,
+  maxLength,
+  autoComplete,
+  keyboardType,
+}: any) => {
   return (
     <TextInput
       {...props}
@@ -13,6 +22,11 @@ const InputField = ({ props, width, borderBottomWidth }: any) => {
         borderBottomWidth: borderBottomWidth,
       }}
       placeholderTextColor={"black"}
+      value={value}
+      onChangeText={onChangeText}
+      maxLength={maxLength}
+      autoComplete={autoComplete}
+      keyboardType={keyboardType}
     ></TextInput>
   );
 };

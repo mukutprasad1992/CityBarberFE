@@ -15,9 +15,15 @@ import { useNavigation } from "@react-navigation/native";
 
 const Forgot = () => {
   const navigation: any = useNavigation();
+  const [userdata, setUserdata] = useState("");
 
   const handleClick = () => {
-    navigation.navigate("Home");
+    if (!userdata.trim()) {
+      alert("enter email or user id");
+    } else {
+      navigation.navigate("Home");
+    }
+    console.log(userdata)
   };
 
   return (
@@ -56,7 +62,12 @@ const Forgot = () => {
                     style={{ width: 18, height: 18, marginTop: 5 }}
                   />
                   <View style={{ marginLeft: 20 }}>
-                    <InputField keyboardType={"email-address"} width={300} />
+                    <InputField
+                      keyboardType={"email-address"}
+                      width={300}
+                      onChangeText={setUserdata}
+                      value={userdata}
+                    />
                   </View>
                 </View>
               </View>

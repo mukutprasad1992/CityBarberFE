@@ -1,18 +1,34 @@
 import React, { useState } from "react";
 import Background from "../../../component/Background";
 import { Picker } from "@react-native-picker/picker";
-
+import Dashboard from "./Dashboard";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
 import InputField from "../../../component/InputField";
 import Btn from "../../../component/Btn";
 import { useNavigation } from "@react-navigation/native";
 
 export const AddShop = () => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const navigate = useNavigation();
+  
+  const navigation = useNavigation();
+  const [details, setDetails] = useState({
+    shopName: "",
+    ownerName: "",
+    openingDay: "",
+    closingDay: "",
+    openingTime: "",
+    closingTime: "",
+  });
+
+  const handleInputChange = (field: string, value: any) => {
+    setDetails((prevInputs) => ({
+      ...prevInputs,
+      [field]: value,
+    }));
+  };
 
   const handleSubmit = () => {
-    alert("working going on!  wait...");
+    alert("Shop Added");
+    // navigation.navigate(Dashboard);
   };
   return (
     <View>
@@ -25,7 +41,6 @@ export const AddShop = () => {
             <InputField
               placeholderTextColor="#003f5c"
               width={350}
-              secureTextEntry={true}
               borderBottomWidth={1}
             />
           </View>
@@ -37,6 +52,8 @@ export const AddShop = () => {
               width={350}
               secureTextEntry={true}
               borderBottomWidth={1}
+              value={details.shopName}
+              onChangeText={(text: any) => handleInputChange("shopName", text)}
             />
           </View>
 
@@ -45,8 +62,11 @@ export const AddShop = () => {
             <InputField
               placeholderTextColor="#003f5c"
               width={350}
-              secureTextEntry={true}
               borderBottomWidth={1}
+              value={details.openingDay}
+              onChangeText={(text: any) =>
+                handleInputChange("openingDay", text)
+              }
             />
           </View>
 
@@ -55,8 +75,11 @@ export const AddShop = () => {
             <InputField
               placeholderTextColor="#003f5c"
               width={350}
-              secureTextEntry={true}
               borderBottomWidth={1}
+              value={details.closingDay}
+              onChangeText={(text: any) =>
+                handleInputChange("closingDay", text)
+              }
             />
           </View>
 
@@ -65,8 +88,11 @@ export const AddShop = () => {
             <InputField
               placeholderTextColor="#003f5c"
               width={350}
-              secureTextEntry={true}
               borderBottomWidth={1}
+              value={details.openingTime}
+              onChangeText={(text: any) =>
+                handleInputChange("openingTime", text)
+              }
             />
           </View>
           <View style={styles.inputContainer}>
@@ -74,8 +100,11 @@ export const AddShop = () => {
             <InputField
               placeholderTextColor="#003f5c"
               width={350}
-              secureTextEntry={true}
               borderBottomWidth={1}
+              value={details.closingTime}
+              onChangeText={(text: any) =>
+                handleInputChange("closingTime", text)
+              }
             />
           </View>
           <View style={styles.inputContainer}>

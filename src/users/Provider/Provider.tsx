@@ -38,20 +38,13 @@ const Provider = () => {
   const handleSubmit = () => {
     const { primaryphone, country, state, city, address, pincode } = userData;
 
-    // if (
-    //   !primaryphone ||
-    //   !secondaryphone ||
-    //   !country ||
-    //   !state ||
-    //   !city ||
-    //   !address ||
-    //   !pincode
-    // ) {
-    //   alert("All field Are Required");
-    //   return;
-    // }
-    navigation.navigate("Login");
-    console.log(userData);
+    if (!primaryphone || !country || !state || !city || !address || !pincode) {
+      alert("GST will be optional and all field Are Required");
+      return;
+    } else {
+      navigation.navigate("Login");
+      console.log(userData);
+    }
   };
 
   return (
@@ -95,11 +88,13 @@ const Provider = () => {
                     />
                     <View style={{ marginLeft: 20 }}>
                       <InputField
+                        maxLength={10}
+                        autoComplete="off"
+                        keyboardType="numeric"
                         width={300}
-                        secureTextEntry={true}
                         value={userData.primaryphone}
                         onChangeText={(text: any) =>
-                          handleChange("phoneNumber", text)
+                          handleChange("primaryphone", text)
                         }
                       />
                     </View>
@@ -197,6 +192,7 @@ const Provider = () => {
                       <InputField
                         width={300}
                         secureTextEntry={true}
+                        value={userData.city}
                         onChangeText={(text: any) => handleChange("city", text)}
                       />
                     </View>
@@ -243,7 +239,8 @@ const Provider = () => {
                     />
                     <View style={{ marginLeft: 20 }}>
                       <InputField
-                        keyboardType={"numeric"}
+                        autoComplete="off"
+                        keyboardType="numeric"
                         width={300}
                         secureTextEntry={true}
                         value={userData.pincode}
@@ -254,11 +251,6 @@ const Provider = () => {
                     </View>
                   </View>
                 </View>
-                {/* <View style={{justifyContent:"center",alignItems:"center"}}>
-           <TouchableOpacity style={styles.camera}>
-          <Image source={require("../../../public/images/CameraIcon.png")} style={{height:40,width:40}} />
-        </TouchableOpacity>
-        </View> */}
                 <View style={{ marginBottom: 50, marginTop: 0 }}>
                   <Btn
                     bgColor={"tomato"}
@@ -316,16 +308,6 @@ const styles = StyleSheet.create({
     top: -50,
     left: 120,
   },
-
-  // camera: {
-  //   borderColor: "#003f5c",
-  //   borderWidth: 2,
-  //   borderRadius: 50,
-  //   width: 50,
-  //   height: 50,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
 });
 
 export default Provider;

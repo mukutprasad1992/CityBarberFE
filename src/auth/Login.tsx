@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
+  TextInput,
 } from "react-native";
 import React, { Component, useState } from "react";
 import Background from "../component/Background";
@@ -13,34 +14,45 @@ import InputField from "../component/InputField";
 import Home from "../screens/Home";
 import { useNavigation } from "@react-navigation/native";
 import Dashboard from "../users/Provider/Dashboard/Dashboard";
+import { Button } from "react-native-paper";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigation: any = useNavigation();
 
-  const isEmailValid = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState(false);
+
+  const handleInputChange = (field: string, value: any) => {
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [field]: value,
+    }));
   };
 
-  // const handleLoginPress = () => {
-  //   if (!isEmailValid(email)) {
-  //     alert("Please enter a valid email address");
-  //     return;
-  //   }
+  const validateInputs = () => {
+    const { email, password } = inputs;
 
-  //   if (password.trim() === "") {
-  //     alert("Please enter a password");
-  //     return;
-  //   }
-
-  //   navigation.navigate("Dashboard");
-  //   return 0;
-  // };
+    if (!email.trim() || !/^[^\s@]+@gmail\.com$/.test(email)) {
+      setError(true);
+      return false;
+    } else if (!password.trim()) {
+      setError(true);
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   const handleLoginPress = () => {
-    navigation.navigate("Dashboard");
+    if (validateInputs()) {
+      navigation.navigate("Dashboard");
+    }
+
+    console.log("------", inputs);
   };
 
   const onForgot = () => {
@@ -71,6 +83,7 @@ const Login = () => {
 
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: 10 }}>Email</Text>
+
                 <View
                   style={{
                     flexDirection: "row",
@@ -86,11 +99,18 @@ const Login = () => {
                     <InputField
                       keyboardType={"email-address"}
                       width={300}
-                      value={email}
-                      onChangeText={(text) => setEmail(text)}
+                      value={inputs.email}
+                      onChangeText={(text: any) =>
+                        handleInputChange("email", text)
+                      }
                     />
                   </View>
                 </View>
+                {error ? (
+                  <Text style={styles.error}> enter Valid gmail</Text>
+                ) : (
+                  ""
+                )}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: 10 }}>Password</Text>
@@ -107,14 +127,24 @@ const Login = () => {
                   />
                   <View style={{ marginLeft: 20 }}>
                     <InputField
-                      keyboardType={"numeric"}
                       width={300}
-                      value={password}
-                      secureTextEntry={true}
-                      onChangeText={(text) => setPassword(text)}
+                      value={inputs.password}
+                      onChangeText={(text: any) =>
+                        handleInputChange("password", text)
+                      }
                     />
                   </View>
                 </View>
+                {error ? (
+                  <Text style={styles.error}>
+                    {" "}
+                    Password must be at least 8 characters long and contain at
+                    least one number, one uppercase letter, one lowercase
+                    letter, and one special character, 'Asgar@213'
+                  </Text>
+                ) : (
+                  ""
+                )}
               </View>
               <View>
                 <TouchableOpacity onPress={onForgot}>
@@ -246,6 +276,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+  },
+  error: {
+    color: "red",
+    marginRight: 300,
+    fontSize: 10,
+    width: 400,
   },
 });
 
