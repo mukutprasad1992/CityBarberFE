@@ -1,239 +1,320 @@
-import { Text, TouchableOpacity, View, StyleSheet, ScrollView, Image } from 'react-native'
-import React, { Component, useState } from 'react'
-import Background from '../component/Background'
-import {RadioButton} from 'react-native-paper'
-import {Card} from "react-native-paper"
-import { SafeAreaView } from 'react-native-safe-area-context'
-import InputField from '../component/InputField'
-import Btn from '../component/Btn'
-import { useNavigation } from '@react-navigation/native'
-import Consumer from './Consumer/Consumer'
+import {
+  Text,
+  Dimensions,
+  View,
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
+import React, { Component, useState } from "react";
+import Background from "../component/Background";
+import Btn from "../component/Btn";
+import InputField from "../component/InputField";
+import { RadioButton } from "react-native-paper";
+import {
+  widthPercentageToDP,
+  heightPercentageToDP,
+} from "react-native-responsive-screen";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useNavigation } from "@react-navigation/native";
+import Consumer from "./Consumer/Consumer";
+import Provider from "./Provider/Provider";
 
 
-const Signup =()=> {
+const { width, height } = Dimensions.get("window");
 
-    const navigation:any = useNavigation();
+const Signup = () => {
+  const baseFontSize = 16;
+  const baseMarginPercentage = 5;
+  const basePaddingPercentage = 5;
 
-    const [checked, setChecked] = useState('first');
- 
-    const [data,setData] = useState({
-    userName:"",
-    email:"",
-    password:"",
+  const navigation = useNavigation();
+
+  const [data, setData] = useState({
+    password: "",
+    confirmPassword: "",
   });
- 
-  const isEmailValid = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+
+  const [checked, setChecked] = useState('Consumer');
+
+  const handleRadioButtonChange = (value:any) => {
+    setChecked(value);
   };
 
-
-const handleInputChange =({name,value}:any)=>{
-    setData((prevData)=>({
-        ...prevData,
-        [name]:value,
- } ))  
-}
-
-const handleSubmit = () =>{
+  const handleSignupBtn =() =>{
     navigation.navigate(Consumer)
-
-}
-
-    return (
-<Background>
-
-   <SafeAreaView>
-       <View style={styles.container}>
-
-      <Text style={styles.title}>CityBarber</Text>
-      
-      <View style={styles.cart}>
-      <View style={styles.cartContainer}>
-            <View style={{flexDirection:"row",marginBottom:20,justifyContent:"center"}}>
-            <Text style={{fontWeight:"800",fontSize:18 , color:"#003f5c"}}>New Account </Text>
-              </View>
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>User Name</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../public/images/user.png")} style={{width:18,height:18,marginTop:5}}/>
-            <View>
-            <View style={{marginLeft:20}}>
-             <InputField 
-             width={300} 
-             value={data.userName}
-            //  onChangeText={(value:any) => handleInputChange('firstName',value)}
-             />
-            </View>
-            </View>
-           </View>
-           </View>
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>Email</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../public/images/mail.png")} style={{width:18,height:18,marginTop:5}}/>
-             <View style={{marginLeft:20}}>
-             <InputField keyboardType={"email-address"} width={300} value={data.email}/>
-             </View>
-           </View>
-           </View>
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>Password</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../public/images/key.png")} style={{width:18,height:18,marginTop:5}}/>
-          <View style={{marginLeft:20}}>
-             <InputField keyboardType={"numeric"} width={300} value={data.password} secureTextEntry={true}/>
-          </View>
-           </View>
-           </View>
-           <View>
-        <RadioButton.Group onValueChange={value => setChecked(value)} value={checked}>
-         <View style={{flexDirection:"row",justifyContent:"space-around"}}>
-          <View style={styles.radioButton}>
-            <RadioButton value="first" />
-            <Text style={styles.radioButtonText}>Consumer</Text>
-          </View>
-          <View style={styles.radioButton}>
-            <RadioButton value="second" />
-            <Text style={styles.radioButtonText}>Provider</Text>
-          </View>
-          </View>
-        </RadioButton.Group>
-      </View>
-           
-           <View style={{marginBottom:20,marginTop:0}}>
-          <Btn bgColor={"tomato"} btnLabel={"Sign Up"} textColor={"#fff"} onPress={handleSubmit}/>
-           </View>
-           <Text style={styles.textsign}>or sign in with</Text>
-           <View style={styles.pnglogo}>
-          <TouchableOpacity style={styles.png}>
-            <Image
-              style={styles.png}
-              source={require("../../public/images/google.jpg")}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.png}>
-            <Image
-              style={styles.png}
-              source={require("../../public/images/facebook.jpg")}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.png}>
-            <Image
-              style={styles.png}
-              source={require("../../public/images/twitter.jpg")}
-            />
-          </TouchableOpacity>
-        </View>
-
-
-
-
-      </View>
-      
-
-      </View>
-      </View>
-      </SafeAreaView>
-      </Background>
-    )
   }
-
-  const styles = StyleSheet.create({
-    container:{
-    flex:1,
-    flexDirection:"column",
-    // position:"absolute",
-    justifyContent:"center",
-    alignItems:"center",
-    // zIndex:99,
-    height:"100%",
-  },
-  cartContainer:{
-    width:350,
-    height:"90%",
-    backgroundColor:"#fff",
-   // borderRadius:50,
-    margin:20,
-
-  },
-
-    title:{
-      fontWeight:'800',
-      position:"absolute",
-      fontSize:40,
-      fontFamily:"Roboto",
-      color:"white" ,
-      top:50,
-        },
-buttonContainer:{
-          position:"absolute",
-          top:290,
-          left:40
-        },
-cart:{
-         position:"absolute",
-         top:250,
-         justifyContent:"center",
-         alignItems:"center",
-         width:400,
-         height:600,
-         backgroundColor:"#fff",
-         borderRadius:50,
-        },
-    button:{
-        backgroundColor:"black",
-        fontSize:25,
-       top:290,
-        width:250,
-        height:50,   
-         marginHorizontal:120,
-       // marginVertical:120,    
-        borderRadius:20,
-        justifyContent:'center',
-        alignItems:"center",
-        position:'absolute',
-        zIndex:1,
   
-       // right:-120,
-    
-    },
-    textsign:{
-        color:"#ddd",
-        position:"absolute",
-        top: 380,
-        left:125,
-        fontSize:12
-    },
-    png: {
-        height: 30,
-        width: 30,
-      },
-    
-      pnglogo: {
-        height: 60,
-        width: 150,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        position:"absolute",
-        top:400,
-        left:100
 
-    },
-    radioButton:{
-      flexDirection:"row",
-      alignItems:"center",
-      justifyContent:"center"
-    },
-    radioButtonText:{
-      color:"#003f5c"
-    }
-    
-  })
+  return (
+    <Background>
+      <View style={styles.container}>
+        <Text style={styles.title}>CityBarber</Text>
 
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="height" enabled>
+          <KeyboardAwareScrollView
+            contentContainerStyle={styles.container}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled
+          >
+            <View style={styles.cart}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginBottom: height * (5 / 100),
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontWeight: "800",
+                    fontSize: 24 * (width / 450),
+                    color: "#003f5c",
+                  }}
+                >
+                  New Account
+                </Text>
+              </View>
+
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  User Name
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../public/images/user.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  Email
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../public/images/mail.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  Password
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../public/images/key.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+
+              <View>
+                <RadioButton.Group
+                  onValueChange={(value) => setChecked(value)}
+                  value={checked}
+                 
+                >
+                  <View style={{flexDirection:"row", justifyContent:"space-around",gap:40}}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginVertical: 10,
+                    }}
+                  >
+                    <RadioButton value="first" />
+                    <Text style={{ marginLeft: 8 }}>Consumer</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginVertical: 10,
+                    }}
+                  >
+                    <RadioButton value="second" />
+                    <Text style={{ marginLeft: 8 }}>Provider</Text>
+                  </View>
+              </View>
+                </RadioButton.Group>
+              </View>
+              <View>
+                <View
+                  style={{
+                    marginBottom: height * (1 / 100),
+                    marginTop: width * (basePaddingPercentage / 100),
+                  }}
+                >
+                  <Btn
+                    bgColor={"tomato"}
+                    btnLabel={"Sign Up"}
+                    textColor={"#fff"}
+                    onPress={handleSignupBtn}
+                  />
+                </View>
+              </View>
+
+              <Text style={styles.textsign}>----------- or -----------</Text>
+
+              <View style={styles.pnglogo}>
+                <TouchableOpacity style={styles.png}>
+                  <Image
+                    style={styles.png}
+                    source={require("../../public/images/google.jpg")}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.png}>
+                  <Image
+                    style={styles.png}
+                    source={require("../../public/images/facebook.jpg")}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.png}>
+                  <Image
+                    style={styles.png}
+                    source={require("../../public/images/twitter.jpg")}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
+      </View>
+    </Background>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    //  flexDirection:"column",
+    // position:"absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    // zIndex:99,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  title: {
+    fontWeight: "800",
+    fontSize: 70 * (width / 700),
+    fontFamily: "Roboto",
+    color: "white",
+    top: height * (15 / 100),
+    position: "absolute",
+  },
+
+  cart: {
+    //marginVertical:height * (35 / 100),
+    top: height * (15 / 100),
+    justifyContent: "center",
+    alignItems: "center",
+    width: widthPercentageToDP("97%"),
+    height: heightPercentageToDP("70%"),
+    backgroundColor: "#fff",
+    borderRadius: 50,
+  },
+  textsign: {
+    color: "#ddd",
+    fontSize: 12 * (width / 600),
+    marginHorizontal: height * (10 / 100),
+  },
+  radioButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#003f5c",
+  },
+  radioButtonText: {
+    color: "#003f5c",
+  },
+  png: {
+    height: heightPercentageToDP("4%"),
+    width: widthPercentageToDP("8%"),
+  },
+
+  pnglogo: {
+    height: 60,
+    width: 150,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+});
 
 export default Signup;

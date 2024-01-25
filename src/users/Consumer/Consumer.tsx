@@ -1,253 +1,357 @@
-import { Text, TouchableOpacity, View, StyleSheet, ScrollView, Image } from 'react-native'
-import React, { Component, useState } from 'react'
-import Background from '../../component/Background'
-import Logo from '../../component/Logo'
-import {Card} from "react-native-paper"
-import { SafeAreaView } from 'react-native-safe-area-context'
-import InputField from '../../component/InputField'
-import Btn from '../../component/Btn'
-import { useNavigation } from '@react-navigation/native'
-import Home from '../../screens/Home'
+import {
+  Text,
+  Dimensions,
+  View,
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView,
+  TouchableOpacity
+} from "react-native";
+import React, { Component, useState } from "react";
+import Background from "../../component/Background";
+import Btn from "../../component/Btn";
+import InputField from "../../component/InputField";
+import {
+  widthPercentageToDP,
+  heightPercentageToDP,
+} from "react-native-responsive-screen";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useNavigation } from "@react-navigation/native";
+import DashboardConsumer from './Dashboard/DashboardConsumer';
 
-const Consumer =()=> {
+const { width, height } = Dimensions.get("window");
 
-    const navigation:any = useNavigation();
-  const [data,setData] = useState({
-    userName:"",
-    email:"",
-    password:"",
+const Consumer = () => {
+  const baseFontSize = 16;
+  const baseMarginPercentage = 5;
+  const basePaddingPercentage = 5;
+
+  const navigation = useNavigation();
+
+  const [data, setData] = useState({
+    password: "",
+    confirmPassword: "",
   });
-  const [dataError,setDataError] = useState(false)
- 
-  const isEmailValid = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
-
-const handleInputChange =({name,value}:any)=>{
-    setData((prevData)=>({
-        ...prevData,
-        [name]:value,
- } ))  
-   setDataError(false);
+const handleOnSubmit =() =>{
+   navigation.navigate(DashboardConsumer)
 }
 
-const handleSubmit = () =>{
-    navigation.navigate("Home")
-//     if(data.userName.trim() === ''&& data.email.trim()==='' && data.password.trim()==='')
-//   setDataError(true);
-//     else{
-//         console.log("Successfully Sign Up");
-     }
+  return (
+    <Background>
+      <View style={styles.container}>
+        <Text style={styles.title}>CityBarber</Text>
 
-    return (
-<Background>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="height" enabled>
+          <KeyboardAwareScrollView
+            contentContainerStyle={styles.container}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled
+          >
 
-   <SafeAreaView>
-       <View style={styles.container}>
-
-      <Text style={styles.title}>CityBarber</Text>
-      
-      <View style={styles.cart}>
-      <View style={styles.cartContainer}>
-      <View style={{flexDirection:"row",marginBottom:20,justifyContent:"center"}}>
-            <Text style={{fontWeight:"800",fontSize:18 , color:"#003f5c"}}>Consumer</Text>
+            <View style={styles.cart}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginBottom: height * (5 / 100),
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontWeight: "800",
+                    fontSize: 24 * (width / 450),
+                    color: "#003f5c",
+                  }}
+                >
+                  Consumer
+                </Text>
               </View>
-           <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>Phone</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../../public/images/telephone.png")} style={{width:18,height:18,marginTop:5}}/>
-          <View style={{marginLeft:20}}>
-             <InputField 
-              width={300}
-               value={data.password} 
-               secureTextEntry={true}
-               onChangeText={(value:any) => handleInputChange(value)}/>
-          </View>
-           </View>
-           </View>
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>Country</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../../public/images/countries.png")} style={{width:18,height:18,marginTop:5}}/>
-            <View>
-            <View style={{marginLeft:20}}>
-             <InputField 
-             width={300} 
-             value={data.userName}
-            onChangeText={(value:any) => handleInputChange(value)}
-             />
+
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  Phone
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../../public/images/telephone.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  Country
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../../public/images/countries.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  City
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../../public/images/city.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  State
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../../public/images/state.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  Address
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../../public/images/home.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                Pin Code
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../../public/images/mailbox.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={data.password}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+            
+              <View>
+                <View
+                  style={{
+                    marginBottom: height * (1 / 100),
+                    marginTop: width * (basePaddingPercentage / 100),
+                  }}
+                >
+                  <Btn
+                    bgColor={"tomato"}
+                    btnLabel={"Submit"}
+                    textColor={"#fff"}
+                    onPress={handleOnSubmit}
+                  />
+                </View>
+              </View>
+
+
             </View>
-            </View>
-           </View>
-           </View>
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>State</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../../public/images/state.png")} style={{width:18,height:18,marginTop:5}}/>
-             <View style={{marginLeft:20}}>
-             <InputField
-              keyboardType={"email-address"} 
-              width={300} 
-              value={data.email}
-              onChangeText={(value:any) => handleInputChange(value)}/>
-             </View>
-           </View>
-           </View>
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>City</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../../public/images/city.png")} style={{width:18,height:18,marginTop:5}}/>
-          <View style={{marginLeft:20}}>
-             <InputField
-              keyboardType={"numeric"} 
-              width={300}
-               value={data.password} 
-               secureTextEntry={true}
-               onChangeText={(value:any) => handleInputChange(value)}/>
-          </View>
-           </View>
-           </View>
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>Address</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../../public/images/home.png")} style={{width:18,height:18,marginTop:5}}/>
-          <View style={{marginLeft:20}}>
-             <InputField 
-              width={300}
-               value={data.password} 
-               secureTextEntry={true}
-               onChangeText={(value:any) => handleInputChange(value)}/>
-          </View>
-           </View>
-           </View>
-          
-            <View style={{flexDirection:"column",marginBottom:15}}>
-             <Text style={{fontSize:10}}>Postal Code</Text>
-           <View style={{flexDirection:"row",borderBottomColor:"#000",borderBottomWidth:0.6}}>
-             <Image source={require("../../../public/images/mailbox.png")} style={{width:18,height:18,marginTop:5}}/>
-          <View style={{marginLeft:20}}>
-             <InputField
-              keyboardType={"numeric"} 
-              width={300}
-               value={data.password} 
-               secureTextEntry={true}
-               onChangeText={(value:any) => handleInputChange(value)}/>
-          </View>
-           </View>
-           </View>
-           {/* <View style={{justifyContent:"center",alignItems:"center"}}>
-           <TouchableOpacity style={styles.camera}>
-          <Image source={require("../../../public/images/CameraIcon.png")} style={{height:40,width:40}} />
-        </TouchableOpacity>
-        </View> */}
-           <View style={{marginBottom:50,marginTop:0}}>
-          <Btn bgColor={"tomato"} btnLabel={"Submit"} textColor={"#fff"} onPress={handleSubmit}/>
-           </View>
-
+            
+          </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
       </View>
-      
+    </Background>
+  );
+};
 
-      </View>
-      </View>
-      </SafeAreaView>
-      </Background>
-    )
-  }
-
-  const styles = StyleSheet.create({
-    container:{
-    flex:1,
-    flexDirection:"column",
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    //  flexDirection:"column",
     // position:"absolute",
+    justifyContent: "center",
+    alignItems: "center",
     // zIndex:99,
-    justifyContent:"center",
-    alignItems:"center",
-    height:"100%"
   },
-  cartContainer:{
-    width:350,
-    height:"80%",
-    backgroundColor:"#fff",
-    borderRadius:50,
-    justifyContent:"center",
-    margin:20,
-    marginTop:50
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  textsign:{
-    color:"#ddd",
-    position:"absolute",
-    top: 480,
-    left:125,
-    fontSize:12
-},
-    title:{
-        fontWeight:'800',
-        position:"absolute",
-        fontSize:40,
-        fontFamily:"",
-        color:"white" ,
-        top:50
-        },
-buttonContainer:{
-          position:"absolute",
-          top:290,
-          left:40
-        },
-cart:{
-         position:"absolute",
-         top:130,
-         width:400,
-         height:700,
-         backgroundColor:"#fff",
-         borderRadius:50,
-        },
-    button:{
-        backgroundColor:"black",
-        fontSize:25,
-       top:290,
-        width:250,
-        height:50,   
-         marginHorizontal:120,
-       // marginVertical:120,    
-        borderRadius:20,
-        justifyContent:'center',
-        alignItems:"center",
-        position:'absolute',
-        zIndex:1,
-  
-       // right:-120,
-    
-    },
-    png: {
-        height: 30,
-        width: 30,
-      },
-    
-      pnglogo: {
-        height: 60,
-        width: 150,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        position:"absolute",
-        top:500,
-        left:100
+  title: {
+    fontWeight: "800",
+    fontSize: 70 * (width / 700),
+    fontFamily: "Roboto",
+    color: "white",
+    top: height * (8 / 100),
+    position: "absolute",
+  },
 
-},
-camera:{
-  borderColor:"#003f5c",
-  borderWidth:2,
-  borderRadius:50,
-  width:50,
-  height:50,
-  justifyContent:"center",
-  alignItems:"center"
-}    
+  cart: {
+    //marginVertical:height * (35 / 100),
+    top: height * (10 / 100),
+    justifyContent: "center",
+    alignItems: "center",
+    width: widthPercentageToDP("97%"),
+    height: heightPercentageToDP("90%"),
+    backgroundColor: "#fff",
+    borderRadius: 50,
+  },
+  textsign: {
+    color: "#000",
+    fontSize: 12 * (width / 600),
+    marginHorizontal: height * (10 / 100),
+    
+  },
+  png: {
+    height: heightPercentageToDP("4%"),
+    width: widthPercentageToDP("8%"),
+  },
 
-  })
+  pnglogo: {
+    height: 60,
+    width: 150,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+},
+});
 
 export default Consumer;

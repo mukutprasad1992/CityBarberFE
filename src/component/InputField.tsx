@@ -1,13 +1,14 @@
 import { Text, TextInput, View } from 'react-native'
 import React, { Component } from 'react'
 
-const InputField =({props,width}:any)=> {
+const InputField =({props,width,height}:any)=> {
     return (
     <TextInput 
     {...props} 
-    style={{width:width,height:30,color:"grey",backgroundColor:'#fff'}} 
-    placeholderTextColor={"black"}>
-
+    style={{width:width,height:height,fontSize:40 * (width / 700),color:"grey",backgroundColor:'#fff',borderWidth:0, borderColor: 'transparent'}} 
+    placeholderTextColor={"black"}
+    >
+    
     </TextInput>
     )
   }
