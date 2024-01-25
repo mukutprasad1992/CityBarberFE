@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Image,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import React, { Component, useState } from "react";
 import Background from "../../component/Background";
@@ -17,25 +17,120 @@ import {
 } from "react-native-responsive-screen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
-import DashboardConsumer from './Dashboard/DashboardConsumer';
+import Login from "../../auth/Login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from 'expo-secure-store';
 
 const { width, height } = Dimensions.get("window");
 
-const Consumer = () => {
+interface ConsumerProps {
+  navigation: any;
+}
+
+const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
+
+
+
   const baseFontSize = 16;
   const baseMarginPercentage = 5;
   const basePaddingPercentage = 5;
 
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
-  const [data, setData] = useState({
-    password: "",
-    confirmPassword: "",
-  });
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
+  const [countryError, setCountryError] = useState(false);
+  const [stateError, setStateError] = useState(false);
+  const [cityError, setCityError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
+  const [pincodeError, setPincodeError] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-const handleOnSubmit =() =>{
-   navigation.navigate(DashboardConsumer)
-}
+  const validatePhoneNumber = (phone: any) => {
+    const cleanedPhoneNumber = phone.replace(/\D/g, "");
+    const digitsOnlyRegex = /^\d+$/;
+    const desiredLength = 10;
+    return (
+      digitsOnlyRegex.test(cleanedPhoneNumber) &&
+      cleanedPhoneNumber.length === desiredLength
+    );
+  };
+
+  const validatePincode = (pincode: any) => {
+    const cleanedPincode = pincode.replace(/\D/g, "");
+    const digitsOnlyRegex = /^\d+$/;
+    const desiredLength = 6;
+    return (
+      digitsOnlyRegex.test(cleanedPincode) &&
+      cleanedPincode.length === desiredLength
+    );
+  };
+
+  const validate = () => {
+    setButtonDisabled(true);
+    if (!validatePhoneNumber(phone)) {
+      setPhoneError(true);
+      setButtonDisabled(false);
+    } else {
+      setPhoneError(false);
+      if (!country.trim()) {
+        setCountryError(true);
+        setButtonDisabled(false);
+      } else {
+        setCountryError(false);
+        if (!state.trim()) {
+          setStateError(true);
+          setButtonDisabled(false);
+        } else {
+          setStateError(false);
+          if (!city.trim()) {
+            setCityError(true);
+            setButtonDisabled(false);
+          } else {
+            setCityError(false);
+            if (!address.trim()) {
+              setAddressError(true);
+              setButtonDisabled(false);
+            } else {
+              setAddressError(false);
+              if (!validatePincode(pincode)) {
+                setPincodeError(true);
+                setButtonDisabled(false);
+              } else {
+                setPincodeError(false);
+                handleOnSubmit();
+                saveData();
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const handleOnSubmit = () => {
+    console.warn(phone, country, state, city, address, pincode);
+    navigation.navigate("Login");
+  };
+  
+  const saveData = async () => {
+    try {
+      await SecureStore.setItemAsync('PHONE',phone);
+      await SecureStore.setItemAsync('COUNTRY',country);
+      await SecureStore.setItemAsync('STATE',state);
+      await SecureStore.setItemAsync('CITY',city);
+      await SecureStore.setItemAsync('ADDRESS',address);
+      await SecureStore.setItemAsync('PINCODE',pincode);
+    } catch (error) {
+      console.error('Error Consumer saving data :', error);
+    }
+  };
+
 
   return (
     <Background>
@@ -48,7 +143,6 @@ const handleOnSubmit =() =>{
             resetScrollToCoords={{ x: 0, y: 0 }}
             scrollEnabled
           >
-
             <View style={styles.cart}>
               <View
                 style={{
@@ -80,11 +174,12 @@ const handleOnSubmit =() =>{
                   }}
                 >
                   <Image
-                    source={require("../../../public/images/telephone.png")}
+                    source={require("../../../public/images/phone.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor:"tomato"
                     }}
                   />
                   <View
@@ -96,11 +191,20 @@ const handleOnSubmit =() =>{
                       fontSize={baseFontSize * (width / 100)}
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
-                      secureTextEntry={true}
+                      value={phone}
+                      keyboardType="numeric"
+                      onChangeText={(text: any) => {
+                        setPhone(text);
+                        setPhoneError(false);
+                      }}
                     />
                   </View>
                 </View>
+                {phoneError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter valid number
+                  </Text>
+                ) : null}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: baseFontSize * (width / 700) }}>
@@ -114,11 +218,12 @@ const handleOnSubmit =() =>{
                   }}
                 >
                   <Image
-                    source={require("../../../public/images/countries.png")}
+                    source={require("../../../public/images/earth100.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor:"tomato"
                     }}
                   />
                   <View
@@ -130,11 +235,63 @@ const handleOnSubmit =() =>{
                       fontSize={baseFontSize * (width / 100)}
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
-                      secureTextEntry={true}
+                      value={country}
+                      onChangeText={(text: any) => {
+                        setCountry(text);
+                        setCountryError(false);
+                      }}
                     />
                   </View>
                 </View>
+                {countryError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter required field
+                  </Text>
+                ) : null}
+              </View>
+
+              <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
+                  State
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    borderBottomColor: "#000",
+                    borderBottomWidth: 0.6,
+                  }}
+                >
+                  <Image
+                    source={require("../../../public/images/country100.png")}
+                    style={{
+                      width: widthPercentageToDP("5"),
+                      height: heightPercentageToDP("2.5"),
+                      marginTop: 5,
+                      tintColor:"tomato"
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginLeft: height * (baseMarginPercentage / 100),
+                    }}
+                  >
+                    <InputField
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
+                      height={heightPercentageToDP("5%")}
+                      value={state}
+                      onChangeText={(text: any) => {
+                        setState(text);
+                        setStateError(false);
+                      }}
+                    />
+                  </View>
+                </View>
+                {stateError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter required field
+                  </Text>
+                ) : null}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: baseFontSize * (width / 700) }}>
@@ -148,11 +305,12 @@ const handleOnSubmit =() =>{
                   }}
                 >
                   <Image
-                    source={require("../../../public/images/city.png")}
+                    source={require("../../../public/images/building100.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor:"tomato"
                     }}
                   />
                   <View
@@ -164,45 +322,19 @@ const handleOnSubmit =() =>{
                       fontSize={baseFontSize * (width / 100)}
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
-                      secureTextEntry={true}
+                      value={city}
+                      onChangeText={(text: any) => {
+                        setCity(text);
+                        setCityError(false);
+                      }}
                     />
                   </View>
                 </View>
-              </View>
-              <View style={{ flexDirection: "column", marginBottom: 15 }}>
-                <Text style={{ fontSize: baseFontSize * (width / 700) }}>
-                  State
-                </Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    borderBottomColor: "#000",
-                    borderBottomWidth: 0.6,
-                  }}
-                >
-                  <Image
-                    source={require("../../../public/images/state.png")}
-                    style={{
-                      width: widthPercentageToDP("5"),
-                      height: heightPercentageToDP("2.5"),
-                      marginTop: 5,
-                    }}
-                  />
-                  <View
-                    style={{
-                      marginLeft: height * (baseMarginPercentage / 100),
-                    }}
-                  >
-                    <InputField
-                      fontSize={baseFontSize * (width / 100)}
-                      width={widthPercentageToDP("70%")}
-                      height={heightPercentageToDP("5%")}
-                      value={data.password}
-                      secureTextEntry={true}
-                    />
-                  </View>
-                </View>
+                {cityError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter required field
+                  </Text>
+                ) : null}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: baseFontSize * (width / 700) }}>
@@ -216,11 +348,12 @@ const handleOnSubmit =() =>{
                   }}
                 >
                   <Image
-                    source={require("../../../public/images/home.png")}
+                    source={require("../../../public/images/homefilled.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor:"tomato"
                     }}
                   />
                   <View
@@ -232,15 +365,23 @@ const handleOnSubmit =() =>{
                       fontSize={baseFontSize * (width / 100)}
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
-                      secureTextEntry={true}
+                      value={address}
+                      onChangeText={(text: any) => {
+                        setAddress(text);
+                        setAddressError(false);
+                      }}
                     />
                   </View>
                 </View>
+                {addressError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter required field
+                  </Text>
+                ) : null}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: baseFontSize * (width / 700) }}>
-                Pin Code
+                  Pin Code
                 </Text>
                 <View
                   style={{
@@ -250,11 +391,12 @@ const handleOnSubmit =() =>{
                   }}
                 >
                   <Image
-                    source={require("../../../public/images/mailbox.png")}
+                    source={require("../../../public/images/mailbox250.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor:"tomato"
                     }}
                   />
                   <View
@@ -266,13 +408,22 @@ const handleOnSubmit =() =>{
                       fontSize={baseFontSize * (width / 100)}
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
-                      secureTextEntry={true}
+                      value={pincode}
+                      keyboardType="numeric"
+                      onChangeText={(text: any) => {
+                        setPincode(text);
+                        setPincodeError(false);
+                      }}
                     />
                   </View>
                 </View>
+                {pincodeError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter required field
+                  </Text>
+                ) : null}
               </View>
-            
+
               <View>
                 <View
                   style={{
@@ -284,14 +435,12 @@ const handleOnSubmit =() =>{
                     bgColor={"tomato"}
                     btnLabel={"Submit"}
                     textColor={"#fff"}
-                    onPress={handleOnSubmit}
+                    onPress={() => validate()}
+                    disabled={buttonDisabled}
                   />
                 </View>
               </View>
-
-
             </View>
-            
           </KeyboardAwareScrollView>
         </KeyboardAvoidingView>
       </View>
@@ -337,7 +486,6 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 12 * (width / 600),
     marginHorizontal: height * (10 / 100),
-    
   },
   png: {
     height: heightPercentageToDP("4%"),
@@ -351,7 +499,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-},
+  },
 });
 
 export default Consumer;

@@ -18,34 +18,94 @@ import {
 } from "react-native-responsive-screen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
-import Consumer from "./Consumer/Consumer";
-import Provider from "./Provider/Provider";
-
+// import Consumer from "./Consumer/Consumer";
+// import Provider from "./Provider/Provider";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get("window");
 
-const Signup = () => {
+interface SignupProps {
+  navigation: any;
+}
+
+const Signup: React.FC<SignupProps> = ({ navigation }: any) => {
   const baseFontSize = 16;
   const baseMarginPercentage = 5;
   const basePaddingPercentage = 5;
 
-  const navigation = useNavigation();
+  const [name, setName] = useState(" ");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const [data, setData] = useState({
-    password: "",
-    confirmPassword: "",
-  });
+  const [selectedValue, setSelectedValue] = useState(" ");
 
-  const [checked, setChecked] = useState('Consumer');
-
-  const handleRadioButtonChange = (value:any) => {
-    setChecked(value);
+  const handleRadioButtonChange = (value: any) => {
+    setSelectedValue(value);
   };
 
-  const handleSignupBtn =() =>{
-    navigation.navigate(Consumer)
-  }
-  
+  const validatePassword = (password: any) => {
+    const lengthRegex = /.{8,}/;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /\d/;
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    return (
+      lengthRegex.test(password) &&
+      uppercaseRegex.test(password) &&
+      lowercaseRegex.test(password) &&
+      digitRegex.test(password) &&
+      specialCharRegex.test(password)
+    );
+  };
+
+  const validate = () => {
+    var regx = /^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/;
+    setButtonDisabled(true);
+    if (!name.trim()) {
+      setNameError(true);
+      setButtonDisabled(false);
+    } else {
+      setNameError(false);
+      if (!regx.test(email)) {
+        setEmailError(true);
+      } else {
+        setEmailError(false);
+        if (!validatePassword(password)) {
+          setPasswordError(true);
+        } else {
+          setPasswordError(false);
+          handleSignupBtn();
+          saveData();
+        }
+      }
+    }
+  };
+
+  const handleSignupBtn = () => {
+    if (selectedValue === "Consumer") {
+      navigation.navigate("Consumer");
+    } else if (selectedValue === "Provider") {
+      navigation.navigate("Provider");
+    }
+
+    console.warn(name, email, password);
+  };
+
+  const saveData = async () => {
+    try {
+      await SecureStore.setItemAsync("NAME", name);
+      await SecureStore.setItemAsync("EMAIL", email);
+      await SecureStore.setItemAsync("PASSWORD", password);
+      await SecureStore.setItemAsync("ROLE", selectedValue);
+    } catch (error) {
+      console.error("Error signup saving data :", error);
+    }
+  };
 
   return (
     <Background>
@@ -89,11 +149,12 @@ const Signup = () => {
                   }}
                 >
                   <Image
-                    source={require("../../public/images/user.png")}
+                    source={require("../../public/images/user96.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -104,10 +165,19 @@ const Signup = () => {
                     <InputField
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
+                      value={name}
+                      onChangeText={(text: any) => {
+                        setName(text);
+                        setNameError(false);
+                      }}
                     />
                   </View>
                 </View>
+                {nameError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter User Name
+                  </Text>
+                ) : null}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: baseFontSize * (width / 700) }}>
@@ -121,11 +191,12 @@ const Signup = () => {
                   }}
                 >
                   <Image
-                    source={require("../../public/images/mail.png")}
+                    source={require("../../public/images/emailfilled.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -136,10 +207,19 @@ const Signup = () => {
                     <InputField
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
+                      value={email}
+                      onChangeText={(text: any) => {
+                        setEmail(text);
+                        setEmailError(false);
+                      }}
                     />
                   </View>
                 </View>
+                {emailError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please Enter Valid Email Id
+                  </Text>
+                ) : null}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: baseFontSize * (width / 700) }}>
@@ -153,11 +233,12 @@ const Signup = () => {
                   }}
                 >
                   <Image
-                    source={require("../../public/images/key.png")}
+                    source={require("../../public/images/key100.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -169,41 +250,61 @@ const Signup = () => {
                       fontSize={baseFontSize * (width / 100)}
                       width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
+                      value={password}
                       secureTextEntry={true}
+                      onChangeText={(text: any) => {
+                        setPassword(text);
+                        setPasswordError(false);
+                      }}
                     />
+                  </View>
+                </View>
+                <View style={{}}>
+                  <View style={{ width: widthPercentageToDP("80%") }}>
+                    {passwordError === true ? (
+                      <Text
+                        style={{ color: "red", fontSize: 8, flexWrap: "wrap" }}
+                      >
+                        ⚠️ Password must be at least 8 characters long and
+                        contain at least one number, one uppercase letter, one
+                        lowercase letter, and one special character.
+                      </Text>
+                    ) : null}
                   </View>
                 </View>
               </View>
 
               <View>
                 <RadioButton.Group
-                  onValueChange={(value) => setChecked(value)}
-                  value={checked}
-                 
+                  onValueChange={(value) => handleRadioButtonChange(value)}
+                  value={selectedValue}
                 >
-                  <View style={{flexDirection:"row", justifyContent:"space-around",gap:40}}>
                   <View
                     style={{
                       flexDirection: "row",
-                      alignItems: "center",
-                      marginVertical: 10,
+                      justifyContent: "space-around",
+                      gap: 40,
                     }}
                   >
-                    <RadioButton value="first" />
-                    <Text style={{ marginLeft: 8 }}>Consumer</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginVertical: 10,
+                      }}
+                    >
+                      <RadioButton.Item value="Consumer" label="Consumer" />
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginVertical: 10,
+                      }}
+                    >
+                      <RadioButton.Item value="Provider" label="Provider" />
+                    </View>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginVertical: 10,
-                    }}
-                  >
-                    <RadioButton value="second" />
-                    <Text style={{ marginLeft: 8 }}>Provider</Text>
-                  </View>
-              </View>
                 </RadioButton.Group>
               </View>
               <View>
@@ -217,7 +318,8 @@ const Signup = () => {
                     bgColor={"tomato"}
                     btnLabel={"Sign Up"}
                     textColor={"#fff"}
-                    onPress={handleSignupBtn}
+                    onPress={() => validate()}
+                    disabled={buttonDisabled}
                   />
                 </View>
               </View>
@@ -284,7 +386,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: widthPercentageToDP("97%"),
-    height: heightPercentageToDP("70%"),
+    height: heightPercentageToDP("80%"),
     backgroundColor: "#fff",
     borderRadius: 50,
   },

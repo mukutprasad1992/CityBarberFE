@@ -1,18 +1,22 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Text, View , Image } from "react-native";
 import React, { Component } from "react";
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from "react-native-responsive-screen";
+import Btn from "../../../../component/Btn";
 
-interface BookingsProps {
+interface ShopSlotDetailsProps {
   navigation: any;
 }
 
-const Bookings: React.FC<BookingsProps> = ({ navigation }: any) => {
-  const handleBookNow = () => {
-    navigation.navigate("ShopSlotDetails");
-  };
+const ShopSlotDetails: React.FC<ShopSlotDetailsProps> = ({ navigation }: any) => {
+  
+  const handleShopSlot =() =>{
+    alert("Appointment Successfully Booked")
+  }
+
+
   return (
     <View
       style={{
@@ -32,29 +36,36 @@ const Bookings: React.FC<BookingsProps> = ({ navigation }: any) => {
           justifyContent: "center",
         }}
       >
-        <ScrollView
-          style={{ marginTop: 100 }}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
+    
           <View
             style={{
               backgroundColor: "#e2e2e2",
               width: widthPercentageToDP("90"),
-              height: heightPercentageToDP("20"),
+              height: heightPercentageToDP("80"),
               justifyContent: "center",
-              flexDirection: "row",
+              alignItems:"center",
+              flexDirection:'column',
               padding: "1.5%",
               borderRadius: 20,
               marginBottom: 20,
             }}
           >
-            <View style={{ width: "70%", justifyContent: "center" }}>
+            <View style={{ width: "90%", justifyContent: "center",alignItems:"center" }}>
               <Text
                 style={{ color: "#003f5c", fontWeight: "800", fontSize: 22 }}
               >
                 Shop Name
               </Text>
+              </View>
+              <Image
+                    source={require("../../../../../public/images/image1.jpg")}
+                    style={{
+                      width: widthPercentageToDP("90"),
+                      height: heightPercentageToDP("50"),
+                      marginTop: 5,
+                    }}
+                  />
+              <View>
               <Text style={{ color: "#003f5c", fontWeight: "500" }}>
                 Address: Barber shop
               </Text>
@@ -65,32 +76,13 @@ const Bookings: React.FC<BookingsProps> = ({ navigation }: any) => {
                 11:00 AM to 12:00 PM
               </Text>
             </View>
-            <View
-              style={{ width: "30%", justifyContent: "center", marginRight: 2 }}
-            >
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "tomato",
-                  height: "45%",
-                  borderRadius: 10,
-                  justifyContent: "center",
-                  padding: 10,
-                  alignItems: "center",
-                }}
-                onPress={handleBookNow}
-              >
-                <Text
-                  style={{ fontSize: 12, fontWeight: "800", color: "#fff" }}
-                >
-                  Book Now
-                </Text>
-              </TouchableOpacity>
+           
+           <Btn bgColor={"tomato"} btnLabel={"Submit"} textColor={"#fff"} onPress={handleShopSlot}/>
             </View>
           </View>
-        </ScrollView>
       </View>
-    </View>
+    
   );
 };
 
-export default Bookings;
+export default ShopSlotDetails;
