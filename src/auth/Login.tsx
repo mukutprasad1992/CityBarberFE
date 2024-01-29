@@ -19,40 +19,63 @@ import { Button } from "react-native-paper";
 const Login = () => {
   const navigation: any = useNavigation();
 
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
 
-  const [error, setError] = useState(false);
-
-  const handleInputChange = (field: string, value: any) => {
-    setInputs((prevInputs) => ({
-      ...prevInputs,
-      [field]: value,
-    }));
-  };
-
-  const validateInputs = () => {
-    const { email, password } = inputs;
-
-    if (!email.trim() || !/^[^\s@]+@gmail\.com$/.test(email)) {
-      setError(true);
+  const validateEmail = () => {
+    if (!email) {
+      setErrorEmail("Email is required");
       return false;
-    } else if (!password.trim()) {
-      setError(true);
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setErrorEmail("Invalid email address");
       return false;
     } else {
+      setErrorEmail("");
       return true;
     }
   };
 
-  const handleLoginPress = () => {
-    if (validateInputs()) {
-      navigation.navigate("Dashboard");
+  const validatePassword = () => {
+    if (!password) {
+      setErrorPassword("Password is required");
+      return false;
+    } else if (password.length < 8) {
+      setErrorPassword("Password must be at least 8 characters long");
+      return false;
+    } else if (
+      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(
+        password
+      )
+    ) {
+      setErrorPassword(
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      );
+      return false;
+    } else {
+      setErrorPassword("");
+      return true;
     }
+  };
 
-    console.log("------", inputs);
+  const handleEmailChange = (text: any) => {
+    setEmail(text);
+    validateEmail();
+  };
+
+  const handlePasswordChange = (text: any) => {
+    setPassword(text);
+    validatePassword();
+  };
+
+  const handleSubmit = () => {
+    if (validateEmail() && validatePassword()) {
+      navigation.navigate("Dashboard");
+    } else {
+      validateEmail();
+      validatePassword();
+    }
   };
 
   const onForgot = () => {
@@ -99,18 +122,15 @@ const Login = () => {
                     <InputField
                       keyboardType={"email-address"}
                       width={300}
-                      value={inputs.email}
-                      onChangeText={(text: any) =>
-                        handleInputChange("email", text)
-                      }
+                      placeholder="Email"
+                      onChangeText={handleEmailChange}
+                      value={email}
                     />
                   </View>
                 </View>
-                {error ? (
-                  <Text style={styles.error}> enter Valid gmail</Text>
-                ) : (
-                  ""
-                )}
+                {errorEmail ? (
+                  <Text style={styles.error}>{errorEmail}</Text>
+                ) : null}
               </View>
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
                 <Text style={{ fontSize: 10 }}>Password</Text>
@@ -128,23 +148,16 @@ const Login = () => {
                   <View style={{ marginLeft: 20 }}>
                     <InputField
                       width={300}
-                      value={inputs.password}
-                      onChangeText={(text: any) =>
-                        handleInputChange("password", text)
-                      }
+                      placeholder="Password"
+                      onChangeText={handlePasswordChange}
+                      value={password}
+                      secureTextEntry={true}
                     />
                   </View>
                 </View>
-                {error ? (
-                  <Text style={styles.error}>
-                    {" "}
-                    Password must be at least 8 characters long and contain at
-                    least one number, one uppercase letter, one lowercase
-                    letter, and one special character, 'Asgar@213'
-                  </Text>
-                ) : (
-                  ""
-                )}
+                {errorPassword ? (
+                  <Text style={styles.error}>{errorPassword}</Text>
+                ) : null}
               </View>
               <View>
                 <TouchableOpacity onPress={onForgot}>
@@ -165,7 +178,7 @@ const Login = () => {
                     bgColor={"tomato"}
                     btnLabel={"Submit"}
                     textColor={"#fff"}
-                    onPress={handleLoginPress}
+                    onPress={handleSubmit}
                   />
                 </View>
                 <Text style={styles.textsign}>or</Text>
@@ -281,7 +294,7 @@ const styles = StyleSheet.create({
     color: "red",
     marginRight: 300,
     fontSize: 10,
-    width: 400,
+    width: 300,
   },
 });
 

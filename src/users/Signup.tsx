@@ -20,91 +20,153 @@ import Provider from "./Provider/Provider";
 const Signup = () => {
   const navigation: any = useNavigation();
 
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorUsername, setErrorUsername] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [errorOption, setErrorOption] = useState("");
 
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [error, setError] = useState(false);
-
-  const handleRadioButtonChange = (value: string) => {
-    setSelectedValue(value);
-  };
-
-  const handleInputChange = (field: string, value: any) => {
-    setData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-
-  const Validate = () => {
-    const { name, email, password } = data;
-
-    if (!name.trim()) {
-      setError(true);
+  const validateEmail = () => {
+    if (!email) {
+      setErrorEmail("Email is required");
       return false;
-    } else if (!email.trim() || !/^[^\s@]+@gmail\.com$/.test(email)) {
-      setError(true);
-      return false;
-    } else if (
-      !password ||
-      !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/.test(password) ||
-      password.length < 8
-    ) {
-      setError(true);
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setErrorEmail("Invalid email address");
       return false;
     } else {
-      setError(false);
+      setErrorEmail("");
       return true;
     }
   };
 
-  const handleSubmit = async () => {
-    const url = "https://citybarberbe.onrender.com/user/register";
-    if (Validate()) {
-      try {
-        const result = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            userType: selectedValue,
-          }),
-        });
-
-        console.log(
-          "Request Data:",
-          JSON.stringify({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            userType: selectedValue,
-          })
-        );
-
-        if (!result.ok) {
-          throw new Error("API request failed");
-        }
-
-        if (selectedValue === "consumer") {
-          navigation.navigate("Consumer");
-        } else if (selectedValue === "provider") {
-          navigation.navigate("Provider");
-        }
-      } catch (error) {
-        console.error("Error during API call:", error);
-        alert("Failed to create account. Please try again.");
-      }
+  const validatePassword = () => {
+    if (!password) {
+      setErrorPassword("Password is required");
+      return false;
+    } else if (password.length < 8) {
+      setErrorPassword("Password must be at least 8 characters long");
+      return false;
+    } else if (
+      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(
+        password
+      )
+    ) {
+      setErrorPassword(
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      );
+      return false;
+    } else {
+      setErrorPassword("");
+      return true;
     }
-    // console.log(data);
   };
+
+  const validateUsername = () => {
+    if (!username) {
+      setErrorUsername("Username is required");
+      return false;
+    } else {
+      setErrorUsername("");
+      return true;
+    }
+  };
+
+  const handleEmailChange = (text: any) => {
+    setEmail(text);
+    validateEmail();
+  };
+
+  const handlePasswordChange = (text: any) => {
+    setPassword(text);
+    validatePassword();
+  };
+
+  const handleUsernameChange = (text: any) => {
+    setUsername(text);
+    validateUsername();
+  };
+
+  const handleRadioButtonChange = (value: string) => {
+    setSelectedValue(value);
+    optionsValidation();
+  };
+  const optionsValidation = () => {
+    if (!selectedValue) {
+      setErrorOption("Select any Options");
+      return false;
+    } else {
+      setErrorOption("");
+      return true;
+    }
+  };
+
+  const handleSubmit = () => {
+    if (
+      validateEmail() &&
+      validatePassword() &&
+      validateUsername() &&
+      optionsValidation()
+    ) {
+      if (selectedValue === "consumer") {
+        navigation.navigate("Consumer");
+      } else if (selectedValue === "provider") {
+        navigation.navigate("Provider");
+      }
+    } else {
+      validateEmail();
+      validatePassword();
+      validateUsername();
+      optionsValidation();
+    }
+  };
+
+  // for api------>
+  // const handleSubmit = async () => {
+  //   const url = "https://citybarberbe.onrender.com/user/register";
+  //   if (Validate()) {
+  //     try {
+  //       const result = await fetch(url, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           name: data.name,
+  //           email: data.email,
+  //           password: data.password,
+  //           userType: selectedValue,
+  //         }),
+  //       });
+
+  //       console.log(
+  //         "Request Data:",
+  //         JSON.stringify({
+  //           name: data.name,
+  //           email: data.email,
+  //           password: data.password,
+  //           userType: selectedValue,
+  //         })
+  //       );
+
+  //       if (!result.ok) {
+  //         throw new Error("API request failed");
+  //       }
+
+  //       if (selectedValue === "consumer") {
+  //         navigation.navigate("Consumer");
+  //       } else if (selectedValue === "provider") {
+  //         navigation.navigate("Provider");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error during API call:", error);
+  //       alert("Failed to create account. Please try again.");
+  //     }
+  //   }
+  //   // console.log(data);
+  // };
 
   return (
     <Background>
@@ -127,31 +189,33 @@ const Signup = () => {
                   New Account{" "}
                 </Text>
               </View>
-
-              <View style={{ flexDirection: "column", marginBottom: 15 }}>
-                <Text style={{ fontSize: 10 }}>user name</Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    borderBottomColor: "#000",
-                    borderBottomWidth: 0.6,
-                  }}
-                >
-                  <Image
-                    source={require("../../public/images/user.png")}
-                    style={{ width: 18, height: 18, marginTop: 5 }}
-                  />
-                  <View style={{ marginLeft: 20 }}>
-                    <InputField
-                      width={300}
-                      value={data.name}
-                      onChangeText={(text: any) =>
-                        handleInputChange("name", text)
-                      }
+              <View>
+                <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                  <Text style={{ fontSize: 10 }}>User Name</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      borderBottomColor: "#000",
+                      borderBottomWidth: 0.6,
+                    }}
+                  >
+                    <Image
+                      source={require("../../public/images/user.png")}
+                      style={{ width: 18, height: 18, marginTop: 5 }}
                     />
+                    <View style={{ marginLeft: 20 }}>
+                      <InputField
+                        width={300}
+                        placeholder="Username"
+                        onChangeText={handleUsernameChange}
+                        value={username}
+                      />
+                    </View>
                   </View>
+                  {errorUsername ? (
+                    <Text style={styles.error}>{errorUsername}</Text>
+                  ) : null}
                 </View>
-                {error ? <Text style={styles.error}> name required</Text> : ""}
               </View>
 
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
@@ -170,18 +234,15 @@ const Signup = () => {
                   <View style={{ marginLeft: 20 }}>
                     <InputField
                       width={300}
-                      value={data.email}
-                      onChangeText={(text: any) =>
-                        handleInputChange("email", text)
-                      }
+                      placeholder="Email"
+                      onChangeText={handleEmailChange}
+                      value={email}
                     />
                   </View>
                 </View>
-                {error ? (
-                  <Text style={styles.error}> enter Valid gmail</Text>
-                ) : (
-                  ""
-                )}
+                {errorEmail ? (
+                  <Text style={styles.error}>{errorEmail}</Text>
+                ) : null}
               </View>
 
               <View style={{ flexDirection: "column", marginBottom: 15 }}>
@@ -200,24 +261,16 @@ const Signup = () => {
                   <View style={{ marginLeft: 20 }}>
                     <InputField
                       width={300}
-                      value={data.password}
+                      placeholder="Password"
+                      onChangeText={handlePasswordChange}
+                      value={password}
                       secureTextEntry={true}
-                      onChangeText={(text: any) =>
-                        handleInputChange("password", text)
-                      }
                     />
                   </View>
                 </View>
-                {error ? (
-                  <Text style={styles.error}>
-                    {" "}
-                    Password must be at least 8 characters long and contain at
-                    least one number, one uppercase letter, one lowercase
-                    letter, and one special character, 'Asgar@213'
-                  </Text>
-                ) : (
-                  ""
-                )}
+                {errorPassword ? (
+                  <Text style={styles.error}>{errorPassword}</Text>
+                ) : null}
               </View>
 
               <View>
@@ -239,6 +292,14 @@ const Signup = () => {
                     </View>
                   </View>
                 </RadioButton.Group>
+
+                {errorOption ? (
+                  <Text
+                    style={{ textAlign: "center", color: "red", fontSize: 12 }}
+                  >
+                    {errorOption}
+                  </Text>
+                ) : null}
               </View>
 
               <View style={{ marginBottom: 20, marginTop: 0 }}>
@@ -249,6 +310,7 @@ const Signup = () => {
                   onPress={handleSubmit}
                 />
               </View>
+
               <Text style={styles.textsign}>or</Text>
 
               <View style={styles.pnglogo}>
@@ -320,7 +382,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 400,
-    height: 500,
+    height: 530,
     backgroundColor: "#fff",
     borderRadius: 40,
   },
@@ -337,8 +399,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     zIndex: 1,
-
-    // right:-120,
   },
   textsign: {
     color: "#003f5c",
@@ -372,8 +432,8 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
     marginRight: 300,
-    fontSize: 10,
-    width: 400,
+    fontSize: 8,
+    width: 300,
   },
 });
 

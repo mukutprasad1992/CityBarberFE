@@ -7,14 +7,17 @@ import { useNavigation } from "@react-navigation/native";
 import Signup from "../users/Signup";
 import Login from "../auth/Login";
 
-const Home = () => {
-  const navigation = useNavigation();
+interface HomeScreenProps{
+  navigation :any
+}
+
+const Home : React.FC<HomeScreenProps>= ({navigation}: any) => {
 
   const handleSignupBtn = () => {
-    navigation.navigate(Signup);
+    navigation.navigate("Signup");
   };
   const handleLoginBtn = () => {
-    navigation.navigate(Login);
+    navigation.navigate("Login");
   };
 
   return (
@@ -45,6 +48,10 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    width: "100%",
+    height: "auto",
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -52,41 +59,23 @@ const styles = StyleSheet.create({
   title: {
     position: "absolute",
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
     textAlign: "center",
     top: 200,
     fontWeight: "bold",
     fontSize: 30,
     color: "white",
   },
-  signBtn: {
-    position: "absolute",
-    top: 590,
-    left: 40,
-    width: 300,
-  },
+
   LoginBtn: {
     position: "absolute",
     top: 500,
-    left: 40,
     width: 300,
   },
-  button: {
-    backgroundColor: "black",
-    fontSize: 25,
-    top: 290,
-    width: 250,
-    height: 50,
-    marginHorizontal: 120,
-    // marginVertical:120,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    zIndex: 1,
 
-    // right:-120,
+  signBtn: {
+    position: "absolute",
+    top: 580,
+    width: 300,
   },
 });
 

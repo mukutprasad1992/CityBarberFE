@@ -15,15 +15,33 @@ import { useNavigation } from "@react-navigation/native";
 
 const Forgot = () => {
   const navigation: any = useNavigation();
-  const [userdata, setUserdata] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+
+  const validateEmail = () => {
+    if (!email) {
+      setErrorEmail("Email is required");
+      return false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setErrorEmail("Invalid email address");
+      return false;
+    } else {
+      setErrorEmail("");
+      return true;
+    }
+  };
+  const handleEmailChange = (text: any) => {
+    setEmail(text);
+    validateEmail();
+  };
 
   const handleClick = () => {
-    if (!userdata.trim()) {
-      alert("enter email or user id");
-    } else {
+    if (validateEmail()) {
       navigation.navigate("Home");
+    } else {
+      validateEmail();
     }
-    console.log(userdata)
   };
 
   return (
@@ -65,11 +83,15 @@ const Forgot = () => {
                     <InputField
                       keyboardType={"email-address"}
                       width={300}
-                      onChangeText={setUserdata}
-                      value={userdata}
+                      placeholder="Email"
+                      onChangeText={handleEmailChange}
+                      value={email}
                     />
                   </View>
                 </View>
+                {errorEmail ? (
+                  <Text style={styles.error}>{errorEmail}</Text>
+                ) : null}
               </View>
               <View>
                 <View style={{ marginBottom: 20, marginTop: 30 }}>
@@ -191,6 +213,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+  },
+  error: {
+    color: "red",
+    marginRight: 300,
+    fontSize: 10,
+    width: 400,
   },
 });
 

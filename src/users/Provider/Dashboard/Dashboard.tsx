@@ -1,49 +1,127 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import Background from "../../../component/Background";
-import Btn from "../../../component/Btn";
+import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { AddShop } from "./AddShop";
+import Btn from "../../../component/Btn";
+import { AddShop } from "./DashScreen/AddShop";
+import Background from "../../../component/Background";
+import {
+  widthPercentageToDP,
+  heightPercentageToDP,
+} from "react-native-responsive-screen";
+import { Profile } from "./DashScreen/Profile";
+import { Location } from "./DashScreen/Location";
+import Help from "./DashScreen/Help";
+import { ShopList } from "./DashScreen/ShopList";
 const Dashboard = () => {
+  const [selectedTab, setSelectedTab] = useState(0);
+
   const navigation = useNavigation();
 
-  const addShop = () => {
-    navigation.navigate(AddShop);
-  };
   return (
-    <View>
-      <Text
-        style={{
-          fontSize: 45,
-          position: "absolute",
-          color: "black",
-          top: 120,
-          left: 20,
-          fontWeight: "600",
-        }}
-      >
-        Welcome to Dashboard
-      </Text>
+    <View style={styles.container}>
+      {selectedTab == 0 ? (
+        <AddShop />
+      ) : selectedTab == 1 ? (
+        <Location />
+      ) : selectedTab == 2 ? (
+        <Help />
+      ) : (
+        <Profile />
+      )}
+      <View style={styles.bottomNavigation}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => {
+            setSelectedTab(0);
+          }}
+        >
+          <Image
+            source={require("../../../../public/images/store2.png")}
+            style={{
+              width: widthPercentageToDP("6"),
+              height: heightPercentageToDP("3"),
+              tintColor: selectedTab == 0 ? "#fff" : "#bebebe",
+            }}
+          />
+        </TouchableOpacity>
 
-      <View style={styles.root}>
-        <Btn
-          bgColor={"tomato"}
-          btnLabel={"Add Shop"}
-          textColor={"#fff"}
-          onPress={addShop}
-        />
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => {
+            setSelectedTab(1);
+          }}
+        >
+          <Image
+            source={require("../../../../public/images/location.png")}
+            style={{
+              width: widthPercentageToDP("6"),
+              height: heightPercentageToDP("3"),
+              tintColor: selectedTab == 1 ? "#fff" : "#bebebe",
+            }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedTab(2);
+          }}
+          style={styles.btn}
+        >
+          <Image
+            source={require("../../../../public/images/CustomerSupport.png")}
+            style={{
+              width: widthPercentageToDP("6"),
+              height: heightPercentageToDP("3"),
+              tintColor: selectedTab == 2 ? "#fff" : "#bebebe",
+            }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedTab(3);
+          }}
+          style={styles.btn}
+        >
+          <Image
+            source={require("../../../../public/images/user.png")}
+            style={{
+              width: widthPercentageToDP("6"),
+              height: heightPercentageToDP("3"),
+              tintColor: selectedTab == 3 ? "#fff" : "#bebebe",
+            }}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  root: {
-    height: 700,
-    width: 400,
+  container: {
+    flex: 1,
+  },
+  bottomNavigation: {
+    width: "100%",
+    height: heightPercentageToDP("8"),
+    backgroundColor: "tomato",
+    position: "absolute",
+    bottom: 0,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  btn: {
+    width: "25%",
+    height: "100%",
     justifyContent: "center",
-    marginTop: 200,
-    marginLeft: 10,
-    borderRadius: 20,
+    alignItems: "center",
+  },
+  cartList: {
+    width: "20%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
+
 export default Dashboard;

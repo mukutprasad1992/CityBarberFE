@@ -9,15 +9,18 @@ import Provider from "./src/users/Provider/Provider";
 import Login from "./src/auth/Login";
 import Forgot from "./src/auth/Forgot";
 import Dashboard from "./src/users/Provider/Dashboard/Dashboard";
-import { AddShop } from "./src/users/Provider/Dashboard/AddShop";
-import MyPickerComponent from "./src/component/Picker";
+import { AddShop } from "./src/users/Provider/Dashboard/DashScreen/AddShop";
+import { ShopList } from "./src/users/Provider/Dashboard/DashScreen/ShopList";
+import Help from "./src/users/Provider/Dashboard/DashScreen/Help";
+import { Profile } from "./src/users/Provider/Dashboard/DashScreen/Profile";
+import { Location } from "./src/users/Provider/Dashboard/DashScreen/Location";
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Signup"
+        initialRouteName="Dashboard"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={Home} />
@@ -29,7 +32,10 @@ function App() {
         <Stack.Screen name="Consumer" component={Consumer} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="AddShop" component={AddShop} />
-        <Stack.Screen name="MyPickerComponent" component={MyPickerComponent} />
+        <Stack.Screen name="Help" component={Help} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Location" component={Location} />
+        <Stack.Screen name="ShopList" component={ShopList} />
       </Stack.Navigator>
     </NavigationContainer>
   );

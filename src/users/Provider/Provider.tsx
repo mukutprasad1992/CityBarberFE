@@ -15,35 +15,168 @@ import InputField from "../../component/InputField";
 import Btn from "../../component/Btn";
 import { useNavigation } from "@react-navigation/native";
 import Home from "../../screens/Home";
-
+import DropDownPicker from "react-native-dropdown-picker";
+import Login from "../../auth/Login";
 const Provider = () => {
   const navigation: any = useNavigation();
 
-  const [userData, setUserData] = useState({
-    primaryphone: "",
-    gstno: "",
-    country: "",
-    state: "",
-    city: "",
-    address: "",
-    pincode: "",
-  });
+  // fields states -------->
 
-  const handleChange = (field: string, value: any) => {
-    setUserData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-  const handleSubmit = () => {
-    const { primaryphone, country, state, city, address, pincode } = userData;
+  const [primaryphone, setPrimaryPhone] = useState();
+  const [phoneError, setPhoneError] = useState("");
+  const [gst, setGst] = useState();
+  const [address, setAddress] = useState();
+  const [addressError, setAddressError] = useState("");
+  const [pin, setPin] = useState();
+  const [pinError, setPinError] = useState("");
 
-    if (!primaryphone || !country || !state || !city || !address || !pincode) {
-      alert("GST will be optional and all field Are Required");
-      return;
+  // Drop Downs States --------->
+
+  const [countryOpen, setCountryOpen] = useState(false);
+  const [currentCountry, setCurrentCountry] = useState("");
+  const [countryError, setCountryError] = useState("");
+
+  const [stateOpen, setStateOpen] = useState(false);
+  const [currentState, setCurrentState] = useState("");
+  const [stateError, setStateError] = useState("");
+
+  const [cityOpen, setCityOpen] = useState(false);
+  const [currentCity, setCurrentCity] = useState("");
+  const [cityError, setCityError] = useState("");
+
+  const Country = [
+    { label: "India", value: "India" },
+    {
+      label: "AMERICA",
+      value: "AMERICA",
+    },
+    {
+      label: "NEWYORK",
+      value: "NEWYORK",
+    },
+  ];
+
+  const State = [
+    { label: "Madhya Pardesh", value: "Madhya Pardesh" },
+    {
+      label: "Bihar",
+      value: "Bihar",
+    },
+    {
+      label: "Uttar Pardesh",
+      value: "Uttar Pardesh",
+    },
+  ];
+
+  const City = [
+    { label: "Bhopal", value: "Bhopal" },
+    {
+      label: "Indore",
+      value: "Indore",
+    },
+  ];
+
+  const cityValidate = () => {
+    if (!currentCity) {
+      setCityError("select Your City");
+      return false;
     } else {
+      setCityError("");
+      return true;
+    }
+  };
+  const stateValidate = () => {
+    if (!currentState) {
+      setStateError("select Your state");
+      return false;
+    } else {
+      setStateError("");
+      return true;
+    }
+  };
+
+  const countryValidate = () => {
+    if (!currentCountry) {
+      setCountryError("select Your country");
+      return false;
+    } else {
+      setCountryError("");
+      return true;
+    }
+  };
+
+  const validatePhone = () => {
+    if (!primaryphone) {
+      setPhoneError("phone no required");
+      return false;
+    } else if (!/^\d{10}$/.test(primaryphone)) {
+      setPhoneError("phone number should be 10 digit");
+      return false;
+    } else {
+      setPhoneError("");
+      return true;
+    }
+  };
+
+  const validateAddress = () => {
+    if (!address) {
+      setAddressError("Enter Your Address ");
+      return false;
+    } else {
+      setAddressError("");
+      return true;
+    }
+  };
+
+  const validatePin = () => {
+    if (!pin) {
+      setPinError("Enter Pin Code ");
+      return false;
+    } else if (!/^\d{6}$/.test(pin)) {
+      setPinError("Pincode should be 6 digit ");
+      return false;
+    } else {
+      setPinError("");
+      return true;
+    }
+  };
+
+  const phoneSubmit = (text: any) => {
+    setPrimaryPhone(text);
+    validatePhone();
+  };
+
+  const gstSubmit = (text: any) => {
+    setGst(text);
+  };
+
+  const addressSubmit = (text: any) => {
+    setAddress(text);
+    validateAddress();
+  };
+
+  const pinSubmit = (text: any) => {
+    setPin(text);
+    validatePin();
+  };
+
+  const handleSubmit = () => {
+    if (
+      validatePhone() &&
+      countryValidate() &&
+      stateValidate() &&
+      cityValidate() &&
+      validateAddress() &&
+      validatePin()
+    ) {
       navigation.navigate("Login");
-      console.log(userData);
+    } else {
+      validatePhone() &&
+        countryValidate() &&
+        stateValidate() &&
+        cityValidate() &&
+        validateAddress() &&
+        validatePin();
     }
   };
 
@@ -53,26 +186,8 @@ const Provider = () => {
         <ScrollView>
           <View style={styles.container}>
             <Text style={styles.title}>CityBarber</Text>
-
             <View style={styles.cart}>
               <View style={styles.cartContainer}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    marginBottom: 20,
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontWeight: "800",
-                      fontSize: 18,
-                      color: "#003f5c",
-                    }}
-                  >
-                    Provider
-                  </Text>
-                </View>
                 <View style={{ flexDirection: "column", marginBottom: 15 }}>
                   <Text style={{ fontSize: 10 }}>Primary Phone</Text>
                   <View
@@ -88,17 +203,17 @@ const Provider = () => {
                     />
                     <View style={{ marginLeft: 20 }}>
                       <InputField
-                        maxLength={10}
                         autoComplete="off"
                         keyboardType="numeric"
                         width={300}
-                        value={userData.primaryphone}
-                        onChangeText={(text: any) =>
-                          handleChange("primaryphone", text)
-                        }
+                        value={primaryphone}
+                        onChangeText={phoneSubmit}
                       />
                     </View>
                   </View>
+                  {phoneError ? (
+                    <Text style={styles.error}>{phoneError}</Text>
+                  ) : null}
                 </View>
                 <View style={{ flexDirection: "column", marginBottom: 15 }}>
                   <Text style={{ fontSize: 10 }}>GST no</Text>
@@ -110,95 +225,75 @@ const Provider = () => {
                     }}
                   >
                     <Image
-                      source={require("../../../public/images/telephone.png")}
+                      source={require("../../../public/images/gst.jpg")}
                       style={{ width: 18, height: 18, marginTop: 5 }}
                     />
                     <View style={{ marginLeft: 20 }}>
                       <InputField
                         width={300}
                         secureTextEntry={true}
-                        value={userData.gstno}
-                        onChangeText={(text: any) =>
-                          handleChange("gstno", text)
-                        }
+                        value={gst}
+                        onChangeText={gstSubmit}
                       />
                     </View>
                   </View>
                 </View>
-                <View style={{ flexDirection: "column", marginBottom: 15 }}>
-                  <Text style={{ fontSize: 10 }}>Country</Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderBottomColor: "#000",
-                      borderBottomWidth: 0.6,
-                    }}
-                  >
-                    <Image
-                      source={require("../../../public/images/countries.png")}
-                      style={{ width: 18, height: 18, marginTop: 5 }}
+
+                <View>
+                  <Text style={{ fontSize: 10, marginTop: 10 }}>Country</Text>
+                  <View>
+                    <DropDownPicker
+                      open={countryOpen}
+                      setOpen={() => setCountryOpen(!countryOpen)}
+                      value={currentCountry}
+                      items={Country}
+                      setValue={(val) => setCurrentCountry(val)}
+                      placeholder="Select Country"
+                      style={{ zIndex: countryOpen ? 5 : 0 }}
                     />
-                    <View>
-                      <View style={{ marginLeft: 20 }}>
-                        <InputField
-                          width={300}
-                          value={userData.country}
-                          onChangeText={(text: any) =>
-                            handleChange("country", text)
-                          }
-                        />
-                      </View>
-                    </View>
                   </View>
+                  {countryError ? (
+                    <Text style={styles.error}>{countryError}</Text>
+                  ) : null}
                 </View>
-                <View style={{ flexDirection: "column", marginBottom: 15 }}>
-                  <Text style={{ fontSize: 10 }}>State</Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderBottomColor: "#000",
-                      borderBottomWidth: 0.6,
-                    }}
-                  >
-                    <Image
-                      source={require("../../../public/images/state.png")}
-                      style={{ width: 18, height: 18, marginTop: 5 }}
+
+                <View>
+                  <Text style={{ fontSize: 10, marginTop: 10 }}>State</Text>
+                  <View>
+                    <DropDownPicker
+                      open={stateOpen}
+                      setOpen={() => setStateOpen(!stateOpen)}
+                      value={currentState}
+                      items={State}
+                      setValue={(val) => setCurrentState(val)}
+                      placeholder="Select State"
+                      style={{ zIndex: stateOpen ? 5 : 0 }}
                     />
-                    <View style={{ marginLeft: 20 }}>
-                      <InputField
-                        width={300}
-                        value={userData.state}
-                        onChangeText={(text: any) =>
-                          handleChange("state", text)
-                        }
-                      />
-                    </View>
                   </View>
+                  {stateError ? (
+                    <Text style={styles.error}>{stateError}</Text>
+                  ) : null}
                 </View>
-                <View style={{ flexDirection: "column", marginBottom: 15 }}>
-                  <Text style={{ fontSize: 10 }}>City</Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderBottomColor: "#000",
-                      borderBottomWidth: 0.6,
-                    }}
-                  >
-                    <Image
-                      source={require("../../../public/images/city.png")}
-                      style={{ width: 18, height: 18, marginTop: 5 }}
+
+                <View>
+                  <Text style={{ fontSize: 10, marginTop: 10 }}>City</Text>
+                  <View>
+                    <DropDownPicker
+                      open={cityOpen}
+                      setOpen={() => setCityOpen(!cityOpen)}
+                      value={currentCity}
+                      items={City}
+                      setValue={(val) => setCurrentCity(val)}
+                      placeholder="Select City"
+                      style={{ zIndex: cityOpen ? 5 : 0 }}
                     />
-                    <View style={{ marginLeft: 20 }}>
-                      <InputField
-                        width={300}
-                        secureTextEntry={true}
-                        value={userData.city}
-                        onChangeText={(text: any) => handleChange("city", text)}
-                      />
-                    </View>
                   </View>
+                  {cityError ? (
+                    <Text style={styles.error}>{cityError}</Text>
+                  ) : null}
                 </View>
-                <View style={{ flexDirection: "column", marginBottom: 15 }}>
+
+                <View style={{ flexDirection: "column", marginTop: 10 }}>
                   <Text style={{ fontSize: 10 }}>Address</Text>
                   <View
                     style={{
@@ -215,16 +310,17 @@ const Provider = () => {
                       <InputField
                         width={300}
                         secureTextEntry={true}
-                        value={userData.address}
-                        onChangeText={(text: any) =>
-                          handleChange("address", text)
-                        }
+                        value={address}
+                        onChangeText={addressSubmit}
                       />
                     </View>
                   </View>
+                  {addressError ? (
+                    <Text style={styles.error}>{addressError}</Text>
+                  ) : null}
                 </View>
 
-                <View style={{ flexDirection: "column", marginBottom: 15 }}>
+                <View style={{ flexDirection: "column", marginTop: 10 }}>
                   <Text style={{ fontSize: 10 }}>Pin Code</Text>
                   <View
                     style={{
@@ -243,15 +339,17 @@ const Provider = () => {
                         keyboardType="numeric"
                         width={300}
                         secureTextEntry={true}
-                        value={userData.pincode}
-                        onChangeText={(text: any) =>
-                          handleChange("pincode", text)
-                        }
+                        value={pin}
+                        onChangeText={pinSubmit}
                       />
                     </View>
                   </View>
+                  {pinError ? (
+                    <Text style={styles.error}>{pinError}</Text>
+                  ) : null}
                 </View>
-                <View style={{ marginBottom: 50, marginTop: 0 }}>
+
+                <View style={{ marginBottom: 50 }}>
                   <Btn
                     bgColor={"tomato"}
                     btnLabel={"Submit"}
@@ -270,7 +368,7 @@ const Provider = () => {
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    flexGrow: 1,
+    // flexGrow: 1,
     justifyContent: "center",
   },
 
@@ -307,6 +405,11 @@ const styles = StyleSheet.create({
     color: "white",
     top: -50,
     left: 120,
+  },
+  error: {
+    color: "red",
+    fontSize: 12,
+    // marginRight: 300,
   },
 });
 
