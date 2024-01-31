@@ -14,13 +14,15 @@ import { ShopList } from "./src/users/Provider/Dashboard/DashScreen/ShopList";
 import Help from "./src/users/Provider/Dashboard/DashScreen/Help";
 import { Profile } from "./src/users/Provider/Dashboard/DashScreen/Profile";
 import { Location } from "./src/users/Provider/Dashboard/DashScreen/Location";
+import { SlotService } from "./src/users/Provider/Dashboard/DashScreen/SlotService";
+import { EditShopDetails } from "./src/users/Provider/Dashboard/DashScreen/EditShopDetails";
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Dashboard"
+        initialRouteName="Home"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={Home} />
@@ -36,6 +38,8 @@ function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Location" component={Location} />
         <Stack.Screen name="ShopList" component={ShopList} />
+        <Stack.Screen name="SlotService" component={SlotService} />
+        <Stack.Screen name="EditShopDetails" component={EditShopDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

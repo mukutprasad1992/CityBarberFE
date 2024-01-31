@@ -10,6 +10,8 @@ const InputField = ({
   maxLength,
   autoComplete,
   keyboardType,
+  placeholder,
+  borderBottomColor,
 }: any) => {
   return (
     <TextInput
@@ -18,15 +20,17 @@ const InputField = ({
         width: width,
         height: 30,
         color: "grey",
-        backgroundColor: "#fff",
+        // backgroundColor: "#fff",
         borderBottomWidth: borderBottomWidth,
       }}
-      placeholderTextColor={"black"}
+      placeholderTextColor={"grey"}
       value={value}
       onChangeText={onChangeText}
       maxLength={maxLength}
       autoComplete={autoComplete}
       keyboardType={keyboardType}
+      placeholder={placeholder}
+      borderBottomColor={borderBottomColor}
     ></TextInput>
   );
 };

@@ -2,24 +2,30 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { Text } from "react-native-paper";
 import Btn from "../../../../component/Btn";
+import { EditShopDetails } from "./EditShopDetails";
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from "react-native-responsive-screen";
-
 import { ScrollView, Touchable } from "react-native";
 import { AddShop } from "./AddShop";
 import { useNavigation } from "@react-navigation/native";
-
+import { SlotService } from "./SlotService";
 export const ShopList = () => {
   const navigation: any = useNavigation();
 
-  const handleSignupBtn = () => {
-    navigation.navigate("AddShop");
+  const SlothandleChange = () => {
+    navigation.navigate(SlotService);
   };
-  
+  const EdithandleChange = () => {
+    navigation.navigate(EditShopDetails);
+  };
+
   return (
     <View style={styles.container}>
+      <Text style={{ fontSize: 24, fontWeight: "800", marginTop: 60 }}>
+        Your Shop
+      </Text>
       <View style={styles.shop}>
         <View style={styles.imageContainer}>
           <Image
@@ -27,56 +33,49 @@ export const ShopList = () => {
             source={require("../../../../../public/images/barberShop.jpg")}
           />
         </View>
-        <View style={styles.cardContent}>
-          <View style={styles.shopCard}>
-            <Text style={styles.titleText}>Modern Hair Cutting saloon </Text>
+        <Text style={styles.titleText}>Modern Hair Cutting saloon </Text>
 
-            <Text style={{ marginTop: 10 }}>Owner Name :</Text>
+        <View style={styles.textContainer}>
+          <View style={styles.textView}>
             <Text>
-              Opening day Time : <Text>07:00</Text>
-            </Text>
-
-            <Text>
-              Closing day Time : <Text>22:00 </Text>
+              Opening Day : <Text style={{ fontWeight: "800" }}>Monday</Text>{" "}
             </Text>
             <Text>
-              Opening day : <Text>Monday </Text>
-            </Text>
-            <Text>
-              Closing day : <Text>Tuesday </Text>
+              Closing Day : <Text style={{ fontWeight: "800" }}>Tuesday</Text>
             </Text>
           </View>
-          <TouchableOpacity style={styles.btn}>
-            <Text>Shop</Text>
+
+          <View style={styles.textView}>
+            <Text>
+              Opening Time : <Text style={{ fontWeight: "800" }}>07:00</Text>
+            </Text>
+            <Text>
+              Closing Time : <Text style={{ fontWeight: "800" }}>22:00</Text>
+            </Text>
+          </View>
+          <Text
+            style={{
+              fontSize: 14,
+              color: "#000000",
+              fontWeight: "900",
+              textAlign: "center",
+              marginTop: 20,
+            }}
+          >
+            Owner Name : ABC
+          </Text>
+        </View>
+        {/* Button code--------> */}
+        <View style={styles.btns}>
+          <TouchableOpacity style={styles.addbtn} onPress={EdithandleChange}>
+            <Text style={{ fontWeight: "600" }}>Edit</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.addbtn} onPress={SlothandleChange}>
+            <Text style={{ fontWeight: "600" }}>Slot & Services</Text>
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* <View style={styles.newShop}>
-        <TouchableOpacity
-          style={{
-            height: 60,
-            width: 60,
-            borderRadius: 50,
-            borderWidth: 2,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            shadowColor: "black",
-            shadowOpacity: 5,
-            shadowRadius: 20,
-          }}
-          onPress={handleSignupBtn}
-        >
-          <Image
-            style={{
-              width: widthPercentageToDP("8"),
-              height: heightPercentageToDP("5"),
-            }}
-            source={require("../../../../../public/images/plus.png")}
-          />
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 };
@@ -89,65 +88,87 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-  },
-  newShop: {
-    height: 100,
-    zIndex: 1,
-    right: 15,
-    marginTop: 50,
+    // backgroundColor: "red",
   },
 
   btn: {
-    width: "20%",
-    height: 50,
+    width: "100%",
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "tomato",
     borderRadius: 20,
-    marginBottom: 20,
+    // backgroundColor: "#e2e2e2",
+
+    marginTop: 10,
   },
 
   shop: {
     alignItems: "center",
-    height: "auto",
-    width: "90%",
-    // backgroundColor: "#e2e2e2",
-    backgroundColor: "#fdf6f6",
+    height: 700,
+    width: "100%",
+    backgroundColor: "#e3ebf7 ",
     borderRadius: 20,
-    marginTop: 100,
+    marginTop: 30,
   },
 
   imageContainer: {
-    height: "50%",
+    height: "60%",
     width: "100%",
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   image: {
     height: "100%",
     width: "100%",
     borderRadius: 10,
   },
-  cardContent: {
+  titleText: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: "#1B1212",
+    textAlign: "center",
+    marginTop: 20,
+  },
+
+  cardText: {
+    fontSize: 18,
+  },
+
+  textContainer: {
+    marginTop: 10,
+    height: 80,
+    width: "80%",
+    gap: 5,
+    textAlign: "center",
+  },
+  textView: {
     height: "auto",
     width: "100%",
-    justifyContent: "space-around",
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    padding: 20,
-    paddingTop: 0,
+    justifyContent: "space-around",
+    marginTop: 5,
+    opacity: 1,
   },
-
-  shopCard: {
-    width: "70%",
-    justifyContent: "center",
+  btns: {
+    height: 60,
+    width: "90%",
     display: "flex",
-    flexDirection: "column",
-    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
-
-  titleText: {
-    fontSize: 18,
-    fontWeight: "700",
+  editbtn: {
+    height: 60,
+    width: "auto",
+  },
+  addbtn: {
+    height: 40,
+    width: 120,
+    backgroundColor: "tomato",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    marginTop: 50,
   },
 });

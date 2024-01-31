@@ -12,15 +12,24 @@ import { Profile } from "./DashScreen/Profile";
 import { Location } from "./DashScreen/Location";
 import Help from "./DashScreen/Help";
 import { ShopList } from "./DashScreen/ShopList";
+
 const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState(0);
-
   const navigation = useNavigation();
+  const [showAddShop, setShowAddShop] = useState(true);
+
+  const handleAddShopSubmit = () => {
+    setShowAddShop(false);
+  };
 
   return (
     <View style={styles.container}>
       {selectedTab == 0 ? (
-        <AddShop />
+        showAddShop ? (
+          <AddShop onSubmit={handleAddShopSubmit} />
+        ) : (
+          <ShopList />
+        )
       ) : selectedTab == 1 ? (
         <Location />
       ) : selectedTab == 2 ? (

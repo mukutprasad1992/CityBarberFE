@@ -30,13 +30,13 @@ export const TimePickers = () => {
   const [showOpeningPicker, setShowOpeningPicker] = useState(false);
   const [showClosingPicker, setShowClosingPicker] = useState(false);
 
-  const onOpeningTimeChange = (event: any, selectedTime: Date) => {
+  const onOpeningTimeChange = (event: any, selectedTime: Date | undefined) => {
     const currentTime = selectedTime || openingTime;
     setShowOpeningPicker(false);
     setOpeningTime(currentTime);
   };
 
-  const onClosingTimeChange = (event: any, selectedTime: Date) => {
+  const onClosingTimeChange = (event: any, selectedTime: Date | undefined) => {
     const currentTime = selectedTime || closingTime;
     setShowClosingPicker(false);
     setClosingTime(currentTime);

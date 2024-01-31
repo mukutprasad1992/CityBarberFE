@@ -181,6 +181,7 @@ const Login = () => {
                     onPress={handleSubmit}
                   />
                 </View>
+                
                 <Text style={styles.textsign}>or</Text>
 
                 <View style={styles.pnglogo}>
@@ -205,6 +206,7 @@ const Login = () => {
                     />
                   </TouchableOpacity>
                 </View>
+
               </View>
             </View>
           </View>

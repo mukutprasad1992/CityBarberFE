@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Background from "../../../../component/Background";
 import Dashboard from "../Dashboard";
 import Login from "../../../../auth/Login";
 import { ShopList } from "./ShopList";
@@ -10,28 +9,17 @@ import {
   ScrollView,
   Touchable,
   TouchableOpacity,
-  Button,
-  Platform,
-  TextInput,
   Image,
 } from "react-native";
 import InputField from "../../../../component/InputField";
 import Btn from "../../../../component/Btn";
 import { useNavigation } from "@react-navigation/native";
-import DatePicker from "react-native-modern-datepicker";
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ImagePicker from "react-native-image-picker";
-// import { Image } from "react-native";
-// import { launchImageLibrary } from "react-native-image-picker";
 import DocumentPicker from "react-native-document-picker";
 
-// interface ValueMap {
-//   hours: number;
-//   minutes: number;
-// }
-
-export const AddShop = ({ onSubmit }: any) => {
+export const EditShopDetails = () => {
   const navigation = useNavigation<any>();
 
   // states for  input Fields Names ---->
@@ -120,10 +108,15 @@ export const AddShop = ({ onSubmit }: any) => {
     },
   ];
 
+  const onChange = () => {
+    navigation.navigate(Dashboard);
+  };
+
   return (
     <View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.title}> Add Shop Details</Text>
+        <Text style={styles.title}> Edit Shop Details</Text>
+
         <View style={styles.root}>
           <View style={styles.inputContainer}>
             <Text>Owner Name</Text>
@@ -255,7 +248,7 @@ export const AddShop = ({ onSubmit }: any) => {
             btnLabel={"submit"}
             bgColor={"tomato"}
             textColor={"#fff"}
-            onPress={onSubmit}
+            onPress={onChange}
           />
         </View>
       </ScrollView>
