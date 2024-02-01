@@ -13,8 +13,13 @@ import Signup from "../users/Signup";
 
 const { width, height } = Dimensions.get("window");
 
-const Home = () => {
-  const navigation = useNavigation();
+interface HomeProps {
+  navigation: any;
+}
+
+const Home: React.FC<HomeProps> = ({ navigation }: any) =>{
+
+
 
   const handleLoginBtn = () =>{
     navigation.navigate(Login)

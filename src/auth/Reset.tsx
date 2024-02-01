@@ -5,29 +5,69 @@ import {
   StyleSheet,
   Image,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import React, { Component, useState } from "react";
 import Background from "../component/Background";
 import Btn from "../component/Btn";
 import InputField from "../component/InputField";
+import { RadioButton } from "react-native-paper";
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from "react-native-responsive-screen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get("window");
 
-const ResetPasswordScreen = () => {
+interface ResetPasswordProps {
+  navigation: any;
+}
+
+const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }: any) => {
   const baseFontSize = 16;
-  const baseMarginPercentage = 5;
+  const baseMarginPercentage = 1;
   const basePaddingPercentage = 5;
 
-  const [data, setData] = useState({
-    password: "",
-    confirmPassword: "",
-  });
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  const validatePassword = (password: any) => {
+    const lengthRegex = /.{8,}/;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /\d/;
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    return (
+      lengthRegex.test(password) &&
+      uppercaseRegex.test(password) &&
+      lowercaseRegex.test(password) &&
+      digitRegex.test(password) &&
+      specialCharRegex.test(password)
+    );
+  };
+
+  const validate = () => {
+    setButtonDisabled(true);
+    if (!validatePassword(password)) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+      if (password === confirmPassword) {
+        handleSignupBtn();
+      } else {
+        alert("Password does not match!");
+      }
+    }
+  };
+
+  const handleSignupBtn = () => {
+    alert("Password successfully Reset");
+  };
 
   return (
     <Background>
@@ -40,7 +80,6 @@ const ResetPasswordScreen = () => {
             resetScrollToCoords={{ x: 0, y: 0 }}
             scrollEnabled
           >
-
             <View style={styles.cart}>
               <View
                 style={{
@@ -52,7 +91,7 @@ const ResetPasswordScreen = () => {
                 <Text
                   style={{
                     fontWeight: "800",
-                    fontSize: baseFontSize * (width / 450),
+                    fontSize: 24 * (width / 450),
                     color: "#003f5c",
                   }}
                 >
@@ -72,11 +111,12 @@ const ResetPasswordScreen = () => {
                   }}
                 >
                   <Image
-                    source={require("../../public/images/key.png")}
+                    source={require("../../public/images/key100.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -85,10 +125,29 @@ const ResetPasswordScreen = () => {
                     }}
                   >
                     <InputField
-                      width={widthPercentageToDP("60%")}
+                      fontSize={baseFontSize * (width / 100)}
+                      width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
+                      value={password}
+                      secureTextEntry={true}
+                      onChangeText={(text: any) => {
+                        setPassword(text);
+                        setPasswordError(false);
+                      }}
                     />
+                  </View>
+                </View>
+                <View style={{}}>
+                  <View style={{ width: widthPercentageToDP("80%") }}>
+                    {passwordError === true ? (
+                      <Text
+                        style={{ color: "red", fontSize: 8, flexWrap: "wrap" }}
+                      >
+                        ⚠️ Password must be at least 8 characters long and
+                        contain at least one number, one uppercase letter, one
+                        lowercase letter, and one special character.
+                      </Text>
+                    ) : null}
                   </View>
                 </View>
               </View>
@@ -104,11 +163,12 @@ const ResetPasswordScreen = () => {
                   }}
                 >
                   <Image
-                    source={require("../../public/images/key.png")}
+                    source={require("../../public/images/key100.png")}
                     style={{
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -118,15 +178,17 @@ const ResetPasswordScreen = () => {
                   >
                     <InputField
                       fontSize={baseFontSize * (width / 100)}
-                      width={widthPercentageToDP("60%")}
+                      width={widthPercentageToDP("70%")}
                       height={heightPercentageToDP("5%")}
-                      value={data.password}
+                      value={confirmPassword}
                       secureTextEntry={true}
+                      onChangeText={(text: any) => {
+                        setConfirmPassword(text);
+                      }}
                     />
                   </View>
                 </View>
               </View>
-            
               <View>
                 <View
                   style={{
@@ -136,40 +198,39 @@ const ResetPasswordScreen = () => {
                 >
                   <Btn
                     bgColor={"tomato"}
-                    btnLabel={"Submit"}
+                    btnLabel={"Sign Up"}
                     textColor={"#fff"}
+                    onPress={() => validate()}
+                    disabled={buttonDisabled}
                   />
                 </View>
               </View>
 
               <Text style={styles.textsign}>----------- or -----------</Text>
-           
-           <View style={styles.pnglogo}>
-          <TouchableOpacity style={styles.png}>
-            <Image
-              style={styles.png}
-              source={require("../../public/images/google.jpg")}
-            />
-          </TouchableOpacity>
 
-          <TouchableOpacity style={styles.png}>
-            <Image
-              style={styles.png}
-              source={require("../../public/images/facebook.jpg")}
-            />
-          </TouchableOpacity>
+              <View style={styles.pnglogo}>
+                <TouchableOpacity style={styles.png}>
+                  <Image
+                    style={styles.png}
+                    source={require("../../public/images/google.jpg")}
+                  />
+                </TouchableOpacity>
 
-          <TouchableOpacity style={styles.png}>
-            <Image
-              style={styles.png}
-              source={require("../../public/images/twitter.jpg")}
-            />
-          </TouchableOpacity>
-        </View>
+                <TouchableOpacity style={styles.png}>
+                  <Image
+                    style={styles.png}
+                    source={require("../../public/images/facebook.jpg")}
+                  />
+                </TouchableOpacity>
 
-
+                <TouchableOpacity style={styles.png}>
+                  <Image
+                    style={styles.png}
+                    source={require("../../public/images/twitter.jpg")}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-            
           </KeyboardAwareScrollView>
         </KeyboardAvoidingView>
       </View>
@@ -207,15 +268,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: widthPercentageToDP("97%"),
-    height: heightPercentageToDP("70%"),
+    height: heightPercentageToDP("80%"),
     backgroundColor: "#fff",
     borderRadius: 50,
   },
   textsign: {
-    color: "#000",
+    color: "#ddd",
     fontSize: 12 * (width / 600),
     marginHorizontal: height * (10 / 100),
-    
+  },
+  radioButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#003f5c",
+  },
+  radioButtonText: {
+    color: "#003f5c",
   },
   png: {
     height: heightPercentageToDP("4%"),
@@ -229,7 +298,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-},
+  },
 });
 
-export default ResetPasswordScreen;
+export default ResetPassword;

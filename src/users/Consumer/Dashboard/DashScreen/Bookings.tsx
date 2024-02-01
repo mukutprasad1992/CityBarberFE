@@ -1,173 +1,300 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  Dimensions,
+} from "react-native";
 import React, { Component } from "react";
 import {
   widthPercentageToDP,
   heightPercentageToDP,
-} from "react-native-responsive-screen"; 
+} from "react-native-responsive-screen";
+const { width, height } = Dimensions.get("window");
+import { useNavigation } from "@react-navigation/native";
 
-const  Bookings =() =>{
-    return (
-      <View style={{flex:1,backgroundColor:"#fff",justifyContent:"center",alignItems:"center"}}>
-        <View style={{flex:1,width:widthPercentageToDP("95"),height:heightPercentageToDP("100"),backgroundColor:"#fff",alignItems:"center",justifyContent:"center"}}>
-        <ScrollView style={{marginTop:40}}
-        showsVerticalScrollIndicator={false} 
-        showsHorizontalScrollIndicator={false}>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
-        <View style={{backgroundColor:"#e2e2e2",width:widthPercentageToDP("90"),height:heightPercentageToDP("20"),justifyContent:"center",flexDirection:"row",padding:"1.5%",borderRadius:20,marginBottom:20}} >
-         <View style={{width:"70%",justifyContent:"center"}}>
-          <Text style={{color:"#003f5c",fontWeight:"800",fontSize:22}}>Shop Name</Text>
-          <Text style={{color:"#003f5c",fontWeight:"500"}}>Address: Barber shop</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>10:00 AM to 11:00 AM</Text>
-          <Text style={{fontSize:10,color:"#003f5c"}}>11:00 AM to 12:00 PM</Text>
-        </View>
-        <View style={{width:"30%",justifyContent:"center",marginRight:2,}}>
-        
-         <TouchableOpacity style={{backgroundColor:"tomato",height:"45%",borderRadius:10,justifyContent:"center",padding:10,alignItems:"center"}}>
-          <Text style={{fontSize:12,fontWeight:"800",color:"#fff"}}>Place Order</Text>
-         </TouchableOpacity>
-        
-        </View>
-        </View>
+const Bookings = () => {
 
+  const navigation = useNavigation<any>(); 
+  const handleBookNow = () => {
+        navigation.navigate("ShopSlotDetails");
+       };
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#e2e2e2",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          width: widthPercentageToDP("95"),
+          height: heightPercentageToDP("100"),
+          backgroundColor: "#e2e2e2",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ScrollView
+          style={{ marginTop: 79.09, marginBottom: 60 }}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              width: widthPercentageToDP("90"),
+              height: heightPercentageToDP("50"),
+              flexDirection: "column",
+              alignItems: "center",
+              borderRadius: 20,
+              marginBottom: 20,
+              marginTop: 20,
+            }}
+          >
+            <Image
+              style={{
+                width: "100%",
+                height: heightPercentageToDP("30"),
+                borderRadius: 20,
+              }}
+              source={require("../../../../../public/images/image1.jpg")}
+            />
+            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                margin: 20,
+                width: "auto",
+                justifyContent: "center",
+              }}
+            >
+              <View style={{ width: "60%" }}>
+                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
+                  Ews 31 housing board karond, housing park colony, karond,
+                  bhopal
+                </Text>
+              </View>
+              <View
+                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
+              >
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: "tomato",
+                    borderRadius: 50,
+                    alignItems: "center",
+                    width: widthPercentageToDP("30%"),
+                    height: heightPercentageToDP("6%"),
+                    justifyContent: "center",
+                    margin: 20,
+                  }}
+                  onPress={handleBookNow}
+                >
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 16 * (width / 700),
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Book now
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              backgroundColor: "#fff",
+              width: widthPercentageToDP("90"),
+              height: heightPercentageToDP("50"),
+              flexDirection: "column",
+              alignItems: "center",
+              borderRadius: 20,
+              marginBottom: 20,
+            }}
+          >
+            <Image
+              style={{
+                width: "100%",
+                height: heightPercentageToDP("30"),
+                borderRadius: 20,
+              }}
+              source={require("../../../../../public/images/image2.jpg")}
+            />
+            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                margin: 20,
+                width: "auto",
+                justifyContent: "center",
+              }}
+            >
+              <View style={{ width: "60%" }}>
+                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
+                  Ews 31 housing board karond, housing park colony, karond,
+                  bhopal
+                </Text>
+              </View>
+              <View
+                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
+              >
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: "tomato",
+                    borderRadius: 50,
+                    alignItems: "center",
+                    width: widthPercentageToDP("30%"),
+                    height: heightPercentageToDP("6%"),
+                    justifyContent: "center",
+                    margin: 20,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 16 * (width / 700),
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Book now
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              backgroundColor: "#fff",
+              width: widthPercentageToDP("90"),
+              height: heightPercentageToDP("50"),
+              flexDirection: "column",
+              alignItems: "center",
+              borderRadius: 20,
+              marginBottom: 20,
+            }}
+          >
+            <Image
+              style={{
+                width: "100%",
+                height: heightPercentageToDP("30"),
+                borderRadius: 20,
+              }}
+              source={require("../../../../../public/images/image3.jpg")}
+            />
+            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                margin: 20,
+                width: "auto",
+                justifyContent: "center",
+              }}
+            >
+              <View style={{ width: "60%" }}>
+                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
+                  Ews 31 housing board karond, housing park colony, karond,
+                  bhopal
+                </Text>
+              </View>
+              <View
+                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
+              >
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: "tomato",
+                    borderRadius: 50,
+                    alignItems: "center",
+                    width: widthPercentageToDP("30%"),
+                    height: heightPercentageToDP("6%"),
+                    justifyContent: "center",
+                    margin: 20,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 16 * (width / 700),
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Book now
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              backgroundColor: "#fff",
+              width: widthPercentageToDP("90"),
+              height: heightPercentageToDP("50"),
+              flexDirection: "column",
+              alignItems: "center",
+              borderRadius: 20,
+              marginBottom: 20,
+            }}
+          >
+            <Image
+              style={{
+                width: "100%",
+                height: heightPercentageToDP("30"),
+                borderRadius: 20,
+              }}
+              source={require("../../../../../public/images/image4.jpg")}
+            />
+            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                margin: 20,
+                width: "auto",
+                justifyContent: "center",
+              }}
+            >
+              <View style={{ width: "60%" }}>
+                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
+                  Ews 31 housing board karond, housing park colony, karond,
+                  bhopal
+                </Text>
+              </View>
+              <View
+                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
+              >
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: "tomato",
+                    borderRadius: 50,
+                    alignItems: "center",
+                    width: widthPercentageToDP("30%"),
+                    height: heightPercentageToDP("6%"),
+                    justifyContent: "center",
+                    margin: 20,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 16 * (width / 700),
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Book now
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </ScrollView>
-        </View>
       </View>
-    );
-  }
-
+    </View>
+  );
+};
 
 export default Bookings;
