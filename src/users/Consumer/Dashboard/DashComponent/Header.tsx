@@ -10,7 +10,7 @@ const Header =({name}:any)=> {
 
     return (
       <View style={styles.container}>
-        <Text style={{color:"#fff",fontSize:16}}>{name}</Text>
+        <Text style={{color:"#fff",fontSize:16,marginTop:35}}>{name}</Text>
       </View>
     );
   }

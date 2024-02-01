@@ -17,10 +17,8 @@ import {
   heightPercentageToDP,
 } from "react-native-responsive-screen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-// import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
-import forgetPassword from "./forgetPassword";
+import forgetPassword from "./ForgotPassword";
 
 const { width, height } = Dimensions.get("window");
 
@@ -30,7 +28,7 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ navigation }: any) => {
   const baseFontSize = 16;
-  const baseMarginPercentage = 5;
+  const baseMarginPercentage = 1;
   const basePaddingPercentage = 5;
 
   // const navigation = useNavigation();
@@ -180,7 +178,7 @@ const Login: React.FC<LoginProps> = ({ navigation }: any) => {
                 </View>
                 {emailError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter Valid Email Id
+                    ⚠️ Please enter valid email id
                   </Text>
                 ) : null}
               </View>

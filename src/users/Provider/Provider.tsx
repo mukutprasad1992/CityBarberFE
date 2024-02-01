@@ -23,13 +23,11 @@ import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get("window");
 
-interface ProviderProps {
-  navigation: any;
-}
 
-const Provider: React.FC<ProviderProps> = ({ navigation }: any) => {
+const Provider = () => {
+  const navigation = useNavigation<any>();
   const baseFontSize = 16;
-  const baseMarginPercentage = 5;
+  const baseMarginPercentage = 1;
   const basePaddingPercentage = 5;
 
   const [phone, setPhone] = useState("");
@@ -198,7 +196,7 @@ const Provider: React.FC<ProviderProps> = ({ navigation }: any) => {
                 </View>
                 {phoneError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter valid number
+                    ⚠️ Please enter valid number
                   </Text>
                 ) : null}
               </View>
@@ -277,7 +275,7 @@ const Provider: React.FC<ProviderProps> = ({ navigation }: any) => {
                 </View>
                 {countryError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -321,7 +319,7 @@ const Provider: React.FC<ProviderProps> = ({ navigation }: any) => {
                 </View>
                 {stateError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -364,7 +362,7 @@ const Provider: React.FC<ProviderProps> = ({ navigation }: any) => {
                 </View>
                 {cityError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -407,7 +405,7 @@ const Provider: React.FC<ProviderProps> = ({ navigation }: any) => {
                 </View>
                 {addressError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -451,7 +449,7 @@ const Provider: React.FC<ProviderProps> = ({ navigation }: any) => {
                 </View>
                 {pincodeError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>

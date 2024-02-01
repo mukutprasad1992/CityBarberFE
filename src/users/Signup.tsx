@@ -17,21 +17,16 @@ import {
   heightPercentageToDP,
 } from "react-native-responsive-screen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useNavigation } from "@react-navigation/native";
-// import Consumer from "./Consumer/Consumer";
-// import Provider from "./Provider/Provider";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-interface SignupProps {
-  navigation: any;
-}
 
-const Signup: React.FC<SignupProps> = ({ navigation }: any) => {
+const Signup = () => {
+  const navigation = useNavigation<any>();
   const baseFontSize = 16;
-  const baseMarginPercentage = 5;
+  const baseMarginPercentage = 1;
   const basePaddingPercentage = 5;
 
   const [name, setName] = useState(" ");
@@ -43,6 +38,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }: any) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const [selectedValue, setSelectedValue] = useState(" ");
+  const [selectedValueError, setSelectedValueError] = useState(false);
 
   const handleRadioButtonChange = (value: any) => {
     setSelectedValue(value);
@@ -87,12 +83,16 @@ const Signup: React.FC<SignupProps> = ({ navigation }: any) => {
   };
 
   const handleSignupBtn = () => {
-    if (selectedValue === "Consumer") {
-      navigation.navigate("Consumer");
-    } else if (selectedValue === "Provider") {
-      navigation.navigate("Provider");
+    if (!selectedValue.trim()) {
+      setSelectedValueError(true);
+    } else {
+      setSelectedValueError(false);
+      if (selectedValue === "Consumer") {
+        navigation.navigate("Consumer");
+      } else if (selectedValue === "Provider") {
+        navigation.navigate("Provider");
+      }
     }
-
     console.warn(name, email, password);
   };
 
@@ -175,7 +175,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }: any) => {
                 </View>
                 {nameError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter User Name
+                    ⚠️ Please enter user name
                   </Text>
                 ) : null}
               </View>
@@ -217,7 +217,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }: any) => {
                 </View>
                 {emailError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter Valid Email Id
+                    ⚠️ Please enter valid email id
                   </Text>
                 ) : null}
               </View>
@@ -305,6 +305,13 @@ const Signup: React.FC<SignupProps> = ({ navigation }: any) => {
                       <RadioButton.Item value="Provider" label="Provider" />
                     </View>
                   </View>
+                  <View style={{alignItems:"center"}}>
+                {selectedValueError === true ? (
+                  <Text style={{ color: "red", fontSize: 8 }}>
+                    ⚠️ Please enter required field
+                  </Text>
+                ) : null}
+                </View>
                 </RadioButton.Group>
               </View>
               <View>

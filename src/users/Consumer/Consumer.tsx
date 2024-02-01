@@ -5,9 +5,8 @@ import {
   StyleSheet,
   Image,
   KeyboardAvoidingView,
-  TouchableOpacity,
 } from "react-native";
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Background from "../../component/Background";
 import Btn from "../../component/Btn";
 import InputField from "../../component/InputField";
@@ -17,39 +16,101 @@ import {
 } from "react-native-responsive-screen";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
-import Login from "../../auth/Login";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from 'expo-secure-store';
+import { Dropdown, SelectCountry } from "react-native-element-dropdown";
 
 const { width, height } = Dimensions.get("window");
 
-interface ConsumerProps {
-  navigation: any;
-}
-
-const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
-
-
-
+const Consumer = () => {
   const baseFontSize = 16;
-  const baseMarginPercentage = 5;
+  const baseMarginPercentage = 1;
   const basePaddingPercentage = 5;
 
-  // const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+
+  // fields states -------->
 
   const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [pincode, setPincode] = useState("");
   const [phoneError, setPhoneError] = useState(false);
-  const [countryError, setCountryError] = useState(false);
-  const [stateError, setStateError] = useState(false);
-  const [cityError, setCityError] = useState(false);
+
   const [addressError, setAddressError] = useState(false);
   const [pincodeError, setPincodeError] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  // Drop Downs States --------->
+  const [countryOpen, setCountryOpen] = useState(false);
+  const [currentCountry, setCurrentCountry] = useState(null);
+  const [countryError, setCountryError] = useState(false);
+
+  const [stateOpen, setStateOpen] = useState(false);
+  const [currentState, setCurrentState] = useState(null);
+  const [stateError, setStateError] = useState(false);
+
+  const [cityOpen, setCityOpen] = useState(false);
+  const [currentCity, setCurrentCity] = useState(null);
+  const [cityError, setCityError] = useState(false);
+
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+
+  const CountryItem = [
+    { label: "India", value: "India" },
+  ];
+
+  const StateItem = {
+    India: [
+      { label: "Andhra Pradesh", value: "Andhra Pradesh" },
+      { label: "Arunachal Pradesh	", value: "Arunachal Pradesh	" },
+      { label: "Assam", value: "Assam" },
+      // { label: "Bihar", value: "Bihar" },
+      // { label: "Chhattisgarh", value: "Chhattisgarh" },
+      // { label: "Goa", value: "Goa" },
+      // { label: "Gujarat", value: "Gujarat" },
+      // { label: "Haryana", value: "Haryana" },
+      // { label: "Himachal Pradesh", value: "Himachal Pradesh" },
+      // { label: "Jharkhand", value: "Jharkhand" },
+      // { label: "Karnataka", value: "Karnataka" },
+      // { label: "Kerala", value: "Kerala" },
+      // { label: "Madhya Pradesh", value: "Madhya Pradesh" },
+      // { label: "Maharashtra", value: "Maharashtra" },
+      // { label: "Manipur", value: "Manipur" },
+      // { label: "Meghalaya", value: "Meghalaya" },
+      // { label: "Mizoram", value: "Mizoram" },
+      // { label: "Nagaland", value: "Nagaland" },
+      // { label: "Odisha", value: "Odisha" },
+      // { label: "Punjab", value: "Punjab" },
+      // { label: "Rajasthan", value: "Rajasthan" },
+      // { label: "Sikkim", value: "Sikkim" },
+      // { label: "Tamil Nadu", value: "Tamil Nadu" },
+      // { label: "Telangana", value: "Telangana" },
+      // { label: "Tripura", value: "Tripura" },
+      // { label: "Uttar Pradesh", value: "Uttar Pradesh" },
+      // { label: "Uttarakhand", value: "Uttarakhand" },
+      // { label: "West Bengal", value: "West Bengal" },
+    ],
+  };
+
+  const CityItem = {
+   "Andhra Pradesh" :[
+    { label: "Amaravati", value: "Amaravati" },
+    { label: "Guntur", value: "Guntur" },
+    { label: "Kakinada", value: "Kakinada" },
+    { label: "Kurnool", value: "Kurnool" },
+    { label: "Tirupati", value: "Tirupati" },
+    { label: "Tirupati", value: "Tirupati" },
+  ],
+  "Arunachal Pradesh":[
+    { label: "Itanagar", value: "Itanagar" },
+  ],
+  "Assam":[
+    { label: "Dhuburi", value: "Dhuburi" },
+    { label: "Dibrugarh", value: "Dibrugarh" },
+    { label: "Dispur", value: "Dispur" },
+    { label: "Guwahati", value: "Guwahati" },
+    { label: "Jorhat", value: "Jorhat" },  
+  ],
+};
 
   const validatePhoneNumber = (phone: any) => {
     const cleanedPhoneNumber = phone.replace(/\D/g, "");
@@ -78,17 +139,18 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
       setButtonDisabled(false);
     } else {
       setPhoneError(false);
-      if (!country.trim()) {
+      if (!currentCountry) {
         setCountryError(true);
         setButtonDisabled(false);
       } else {
         setCountryError(false);
-        if (!state.trim()) {
+
+        if (!currentState) {
           setStateError(true);
           setButtonDisabled(false);
         } else {
           setStateError(false);
-          if (!city.trim()) {
+          if (!currentCity) {
             setCityError(true);
             setButtonDisabled(false);
           } else {
@@ -104,7 +166,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
               } else {
                 setPincodeError(false);
                 handleOnSubmit();
-                saveData();
+                // saveData();
               }
             }
           }
@@ -114,23 +176,16 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
   };
 
   const handleOnSubmit = () => {
-    console.warn(phone, country, state, city, address, pincode);
+    console.warn(
+      phone,
+      currentCountry,
+      currentState,
+      currentCity,
+      address,
+      pincode
+    );
     navigation.navigate("Login");
   };
-  
-  const saveData = async () => {
-    try {
-      await SecureStore.setItemAsync('PHONE',phone);
-      await SecureStore.setItemAsync('COUNTRY',country);
-      await SecureStore.setItemAsync('STATE',state);
-      await SecureStore.setItemAsync('CITY',city);
-      await SecureStore.setItemAsync('ADDRESS',address);
-      await SecureStore.setItemAsync('PINCODE',pincode);
-    } catch (error) {
-      console.error('Error Consumer saving data :', error);
-    }
-  };
-
 
   return (
     <Background>
@@ -179,7 +234,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
-                      tintColor:"tomato"
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -202,7 +257,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                 </View>
                 {phoneError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter valid number
+                    ⚠️ Please enter valid number
                   </Text>
                 ) : null}
               </View>
@@ -223,7 +278,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
-                      tintColor:"tomato"
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -231,21 +286,35 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       marginLeft: height * (baseMarginPercentage / 100),
                     }}
                   >
-                    <InputField
-                      fontSize={baseFontSize * (width / 100)}
-                      width={widthPercentageToDP("70%")}
-                      height={heightPercentageToDP("5%")}
-                      value={country}
-                      onChangeText={(text: any) => {
-                        setCountry(text);
-                        setCountryError(false);
+                    <Dropdown
+                      style={[
+                        styles.dropdown,
+                        isFocus && { borderColor: "blue" },
+                      ]}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      iconStyle={styles.iconStyle}
+                      data={CountryItem}
+                      search
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder={!isFocus ? "Select Country" : "..."}
+                      searchPlaceholder="Search..."
+                      value={value}
+                      onFocus={() => setIsFocus(true)}
+                      onBlur={() => setIsFocus(false)}
+                      onChange={(item: any) => {
+                        setValue(item.value);
+                        setIsFocus(false);
                       }}
                     />
                   </View>
                 </View>
                 {countryError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -267,7 +336,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
-                      tintColor:"tomato"
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -275,21 +344,35 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       marginLeft: height * (baseMarginPercentage / 100),
                     }}
                   >
-                    <InputField
-                      fontSize={baseFontSize * (width / 100)}
-                      width={widthPercentageToDP("70%")}
-                      height={heightPercentageToDP("5%")}
-                      value={state}
-                      onChangeText={(text: any) => {
-                        setState(text);
-                        setStateError(false);
+                    <Dropdown
+                      style={[
+                        styles.dropdown,
+                        isFocus && { borderColor: "blue" },
+                      ]}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      iconStyle={styles.iconStyle}
+                      data={StateItem[currentCountry] || []}
+                      search
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder={!isFocus ? "Select State" : "..."}
+                      searchPlaceholder="Search..."
+                      value={value}
+                      onFocus={() => setIsFocus(true)}
+                      onBlur={() => setIsFocus(false)}
+                      onChange={(item: any) => {
+                        setValue(item.value);
+                        setIsFocus(false);
                       }}
                     />
                   </View>
                 </View>
                 {stateError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -310,7 +393,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
-                      tintColor:"tomato"
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -318,21 +401,35 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       marginLeft: height * (baseMarginPercentage / 100),
                     }}
                   >
-                    <InputField
-                      fontSize={baseFontSize * (width / 100)}
-                      width={widthPercentageToDP("70%")}
-                      height={heightPercentageToDP("5%")}
-                      value={city}
-                      onChangeText={(text: any) => {
-                        setCity(text);
-                        setCityError(false);
+                    <Dropdown
+                      style={[
+                        styles.dropdown,
+                        isFocus && { borderColor: "blue" },
+                      ]}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      iconStyle={styles.iconStyle}
+                      data={CityItem[currentState]}
+                      search
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder={!isFocus ? "Select City" : "..."}
+                      searchPlaceholder="Search..."
+                      value={value}
+                      onFocus={() => setIsFocus(true)}
+                      onBlur={() => setIsFocus(false)}
+                      onChange={(item: any) => {
+                        setValue(item.value);
+                        setIsFocus(false);
                       }}
                     />
                   </View>
                 </View>
                 {cityError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -353,7 +450,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
-                      tintColor:"tomato"
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -375,7 +472,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                 </View>
                 {addressError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -396,7 +493,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                       width: widthPercentageToDP("5"),
                       height: heightPercentageToDP("2.5"),
                       marginTop: 5,
-                      tintColor:"tomato"
+                      tintColor: "tomato",
                     }}
                   />
                   <View
@@ -419,7 +516,7 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
                 </View>
                 {pincodeError === true ? (
                   <Text style={{ color: "red", fontSize: 8 }}>
-                    ⚠️ Please Enter required field
+                    ⚠️ Please enter required field
                   </Text>
                 ) : null}
               </View>
@@ -451,11 +548,8 @@ const Consumer: React.FC<ConsumerProps> = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //  flexDirection:"column",
-    // position:"absolute",
     justifyContent: "center",
     alignItems: "center",
-    // zIndex:99,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -499,6 +593,40 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+  },
+  dropdown: {
+    height: 30,
+    width: widthPercentageToDP("70"),
+    borderColor: "transparent",
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: "absolute",
+    backgroundColor: "white",
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });
 
