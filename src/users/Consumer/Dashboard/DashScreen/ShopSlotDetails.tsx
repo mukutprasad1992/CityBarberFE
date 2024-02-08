@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 // import { MaterialIcons } from "@expo/vector-icons";
@@ -14,7 +14,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import CalendarStrip from "react-native-calendar-strip";
 import { useNavigation } from "@react-navigation/native";
-import moment from "moment";
+import moment, { Moment } from "moment";
+import { TDateRange } from 'react-native-calendar-strip';
+interface LocalTDateRange {
+  start: string;
+  end: string;
+}
+
 
 const ShopSlotDetails = () => {
   const navigation = useNavigation<any>();
@@ -69,7 +75,7 @@ const ShopSlotDetails = () => {
     },
   ];
 
-  const currentDate = moment();
+ 
   // const currentDate = moment().format("DD-MM-YYYY");
   // console.log("moment " + currentDate);
   // const currentDate = new Date();
@@ -79,7 +85,41 @@ const ShopSlotDetails = () => {
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState("");
   const [isTimeSelected, setIsTimeSelected] = useState(false);
+//   const currentDate = moment();
+//   const oneMonthDate = moment().add(30, 'day').format('YYYY-MM-DD');
+//  const datesWhitelist: TDateRange[] = [{ start: currentDate, end: oneMonthDate }];
+ const currentDate: Moment = moment();
+ const oneMonthDate: string = moment().add(30, 'day').format('YYYY-MM-DD');
+ const datesWhitelist: LocalTDateRange[] = [{ start: currentDate.format('YYYY-MM-DD'), end: oneMonthDate }];
+ 
+  // const [isCalendarScrollable, setCalendarScrollable] = useState(true);
+  
+  // const getEndDate = () => {
+  //   const endDate = new Date();
+  //   endDate.setDate(endDate.getDate() + 30);
+  //   return endDate;
+  // };
 
+  // useEffect(()=>{
+  //   const yesterday = moment().subtract(1,'day');
+  //   const formattedYesterday = yesterday.format("DD-MM-YYYY");
+  //   console.log('yesterday',formattedYesterday);
+  //   const oneMonthDate = moment().add(30,'day');
+  //   const formattedOneMonthDate = oneMonthDate.format("DD-MM-YYYY");
+  //   console.log("OneMonthDate",formattedOneMonthDate);
+
+  //   if(formattedYesterday){
+  //     setCalendarScrollable(false);
+  //   }else if(formattedOneMonthDate){
+  //     setCalendarScrollable(true)
+  //   }else{
+  //     setCalendarScrollable(false);
+  //   }
+  // })
+
+
+
+  
   const handleDateSelection = (selectedDate: any) => {
     console.log("Selected Date:", selectedDate);
     const aqurateDate = moment(selectedDate).format("DD-MM-YYYY");
@@ -119,6 +159,7 @@ const ShopSlotDetails = () => {
   console.log(servicePrice);
   console.warn(serviceName, serviceTime, servicePrice);
 
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", gap: 10 }}>
       {/* header section */}
@@ -149,15 +190,17 @@ const ShopSlotDetails = () => {
         }}
       >
         <CalendarStrip
-          scrollable
-          startingDate={currentDate} 
+          scrollable={false}
+          // scrollable
+          selectedDate={currentDate}
+          startingDate={currentDate}
           style={{ height: 90 }}
           calendarColor={"#fff"}
           calendarHeaderStyle={{ color: "tomato" }}
           dateNumberStyle={{ color: "black" }}
           dateNameStyle={{ color: "black" }}
-          highlightDateNameStyle={{ color: "#fff" }}
           highlightDateNumberStyle={{ color: "#fff" }}
+          highlightDateNameStyle={{ color: "#fff" }}
           daySelectionAnimation={{
             type: "background",
             duration:30,
@@ -165,6 +208,7 @@ const ShopSlotDetails = () => {
           }}
           iconLeft={null}
           iconRight={null}
+          datesWhitelist={datesWhitelist}
           disabledDateNameStyle={{ color: "grey" }}
           disabledDateNumberStyle={{ color: "grey" }}
           disabledDateOpacity={0.5}

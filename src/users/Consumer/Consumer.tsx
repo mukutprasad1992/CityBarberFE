@@ -286,29 +286,20 @@ const Consumer = () => {
                       marginLeft: height * (baseMarginPercentage / 100),
                     }}
                   >
-                    <Dropdown
-                      style={[
-                        styles.dropdown,
-                        isFocus && { borderColor: "blue" },
-                      ]}
-                      placeholderStyle={styles.placeholderStyle}
-                      selectedTextStyle={styles.selectedTextStyle}
-                      inputSearchStyle={styles.inputSearchStyle}
-                      iconStyle={styles.iconStyle}
-                      data={CountryItem}
-                      search
-                      maxHeight={300}
-                      labelField="label"
-                      valueField="value"
-                      placeholder={!isFocus ? "Select Country" : "..."}
-                      searchPlaceholder="Search..."
-                      value={value}
-                      onFocus={() => setIsFocus(true)}
-                      onBlur={() => setIsFocus(false)}
-                      onChange={(item: any) => {
-                        setValue(item.value);
-                        setIsFocus(false);
-                      }}
+                     <Dropdown
+                data={Days}
+                labelField="label"
+                valueField="value"
+                placeholder="Select day"
+                placeholderStyle={styles.dropText}
+                value={selectedDay}
+                onChange={(item) => {
+                  setSelectedDay(item.value);
+                }}
+                search
+                searchPlaceholder="select days.."
+              />
+
                     />
                   </View>
                 </View>

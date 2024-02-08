@@ -5,6 +5,8 @@ import {
   View,
   Image,
   Dimensions,
+  SafeAreaView,
+  FlatList,
 } from "react-native";
 import React, { Component } from "react";
 import {
@@ -20,9 +22,48 @@ const Bookings = () => {
   const handleBookNow = () => {
         navigation.navigate("ShopSlotDetails");
        };
+       const ShopData = [
+        {
+          id: 1,
+          image:require("../../../../../public/images/image1.jpg"),
+          name: "Raju Barber",
+          address: "Boardoffice square ",
+          ranking:0,
+        },
+        {
+          id: 2,
+          image:require("../../../../../public/images/image2.jpg"),
+          name: "Seizer",
+          address: "Karond square near sanjay sweets ",
+          ranking:0
+        },
+        {
+          id: 3,
+          image:require("../../../../../public/images/image3.jpg"),
+          name: "Billu Barber",
+          address: "Indarpuri C-sector near yadav tea stole." ,
+          ranking:0,
+        },
+        {
+          id: 4,
+          image:require("../../../../../public/images/image4.jpg"),
+          name: "Bhopali Barber",
+          address: "Indarpuri A-sector near Shiv mandir." ,
+          ranking:0,
+        },
+        {
+          id: 5,
+          image:require("../../../../../public/images/image4.jpg"),
+          name: "Bhopali Barber",
+          address: "Indarpuri A-sector near Shiv mandir." ,
+          ranking:0,
+        },
+       ]
+
+       const colorArray = ["#fcab62","#e68d53","#c97849","#dfc578","#ecdcab",]
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: "#e2e2e2",
@@ -40,260 +81,77 @@ const Bookings = () => {
           justifyContent: "center",
         }}
       >
-        <ScrollView
-          style={{ marginTop: 79.09, marginBottom: 60 }}
+          <FlatList 
+          data={ShopData}
+          style={{marginTop:70,marginBottom:60}}
           showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          <View
+          renderItem = {({item,index})=>(
+            <TouchableOpacity
+            onPress={handleBookNow}
+            key={index}
             style={{
-              backgroundColor: "#fff",
+             
+              backgroundColor: colorArray[index % colorArray.length],
               width: widthPercentageToDP("90"),
-              height: heightPercentageToDP("50"),
-              flexDirection: "column",
-              alignItems: "center",
+              height: heightPercentageToDP("20"),
+              flexDirection: "row",
+              // alignItems: "center",
               borderRadius: 20,
               marginBottom: 20,
               marginTop: 20,
             }}
           >
-            <Image
-              style={{
-                width: "100%",
-                height: heightPercentageToDP("30"),
-                borderRadius: 20,
-              }}
-              source={require("../../../../../public/images/image1.jpg")}
-            />
-            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
             <View
-              style={{
-                flexDirection: "row",
-                margin: 20,
-                width: "auto",
-                justifyContent: "center",
-              }}
-            >
-              <View style={{ width: "60%" }}>
-                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
-                  Ews 31 housing board karond, housing park colony, karond,
-                  bhopal
-                </Text>
-              </View>
-              <View
-                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
-              >
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "tomato",
-                    borderRadius: 50,
-                    alignItems: "center",
-                    width: widthPercentageToDP("30%"),
-                    height: heightPercentageToDP("6%"),
-                    justifyContent: "center",
-                    margin: 20,
-                  }}
-                  onPress={handleBookNow}
-                >
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontSize: 16 * (width / 700),
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Book now
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View
             style={{
-              backgroundColor: "#fff",
-              width: widthPercentageToDP("90"),
-              height: heightPercentageToDP("50"),
-              flexDirection: "column",
-              alignItems: "center",
-              borderRadius: 20,
-              marginBottom: 20,
-            }}
-          >
+              marginLeft: 20,
+              // marginBottom:20,
+              width: "20%",
+              justifyContent: "center",
+            }} >
             <Image
               style={{
                 width: "100%",
-                height: heightPercentageToDP("30"),
-                borderRadius: 20,
+                height: "45%",
+                borderRadius:50,
               }}
-              source={require("../../../../../public/images/image2.jpg")}
+              source={item.image}
             />
-            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
+            </View>
+            
             <View
               style={{
-                flexDirection: "row",
-                margin: 20,
-                width: "auto",
+                flexDirection: "column",
+                margin: 5,
+                padding:9,
+                width: "50%",
                 justifyContent: "center",
+                overflow:"hidden"
               }}
             >
-              <View style={{ width: "60%" }}>
-                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
-                  Ews 31 housing board karond, housing park colony, karond,
-                  bhopal
+              <Text style={{ fontSize: 15,fontWeight:"bold",color:"#fff" }}>{item.name}</Text>
+              <View style={{ width: "80%" }}>
+                <Text style={{ fontSize: 10,marginTop:5,color:"#fff" }}>
+                 <Text style={{fontWeight:"600",color:"#fff"}}>Address:</Text>
+                 {item.address}
                 </Text>
               </View>
-              <View
-                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
-              >
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "tomato",
-                    borderRadius: 50,
-                    alignItems: "center",
-                    width: widthPercentageToDP("30%"),
-                    height: heightPercentageToDP("6%"),
-                    justifyContent: "center",
-                    margin: 20,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontSize: 16 * (width / 700),
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Book now
-                  </Text>
-                </TouchableOpacity>
-              </View>
             </View>
-          </View>
-          <View
+            <View 
             style={{
-              backgroundColor: "#fff",
-              width: widthPercentageToDP("90"),
-              height: heightPercentageToDP("50"),
               flexDirection: "column",
-              alignItems: "center",
-              borderRadius: 20,
-              marginBottom: 20,
-            }}
-          >
-            <Image
-              style={{
-                width: "100%",
-                height: heightPercentageToDP("30"),
-                borderRadius: 20,
-              }}
-              source={require("../../../../../public/images/image3.jpg")}
-            />
-            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                margin: 20,
-                width: "auto",
-                justifyContent: "center",
-              }}
-            >
-              <View style={{ width: "60%" }}>
-                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
-                  Ews 31 housing board karond, housing park colony, karond,
-                  bhopal
-                </Text>
-              </View>
-              <View
-                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
-              >
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "tomato",
-                    borderRadius: 50,
-                    alignItems: "center",
-                    width: widthPercentageToDP("30%"),
-                    height: heightPercentageToDP("6%"),
-                    justifyContent: "center",
-                    margin: 20,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontSize: 16 * (width / 700),
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Book now
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              width: "20%",
+              alignItems:"center",
+              justifyContent: "center",
+            }}>
+              <Text style={{ fontSize: 28,fontWeight:"bold" ,color:"#fff"}}>{item.ranking}</Text>
+              <Text style={{fontSize:12,fontWeight:"600",color:"#fff"}}>Ranking</Text>
             </View>
-          </View>
-          <View
-            style={{
-              backgroundColor: "#fff",
-              width: widthPercentageToDP("90"),
-              height: heightPercentageToDP("50"),
-              flexDirection: "column",
-              alignItems: "center",
-              borderRadius: 20,
-              marginBottom: 20,
-            }}
-          >
-            <Image
-              style={{
-                width: "100%",
-                height: heightPercentageToDP("30"),
-                borderRadius: 20,
-              }}
-              source={require("../../../../../public/images/image4.jpg")}
-            />
-            <Text style={{ fontSize: 22 }}>The Barber Shop</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                margin: 20,
-                width: "auto",
-                justifyContent: "center",
-              }}
-            >
-              <View style={{ width: "60%" }}>
-                <Text style={{ fontSize: 10, margin: 5, flexWrap: "wrap" }}>
-                  Ews 31 housing board karond, housing park colony, karond,
-                  bhopal
-                </Text>
-              </View>
-              <View
-                style={{ width: "40%", marginRight: 10, marginVertical: -13 }}
-              >
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "tomato",
-                    borderRadius: 50,
-                    alignItems: "center",
-                    width: widthPercentageToDP("30%"),
-                    height: heightPercentageToDP("6%"),
-                    justifyContent: "center",
-                    margin: 20,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontSize: 16 * (width / 700),
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Book now
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
+
+          </TouchableOpacity>)}
+          
+          />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

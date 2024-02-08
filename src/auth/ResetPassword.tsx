@@ -22,11 +22,10 @@ import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get("window");
 
-interface ResetPasswordProps {
-  navigation: any;
-}
 
-const ResetPassword: React.FC<ResetPasswordProps> = ({ navigation }: any) => {
+
+const ResetPassword = ( ) => {
+  const navigation = useNavigation<any>();
   const baseFontSize = 16;
   const baseMarginPercentage = 1;
   const basePaddingPercentage = 5;
