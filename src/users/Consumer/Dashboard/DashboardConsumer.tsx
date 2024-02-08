@@ -1,15 +1,14 @@
 import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import Background from "../../../component/Background";
 import Bookings from "./DashScreen/Bookings";
-import Location from "./DashScreen/Location";
-import Help from "./DashScreen/Help";
-import Profile from "./DashScreen/Profile";
+import Location from "../../../screens/Location";
+import Help from "../../../screens/Help";
+import Profile from "../../Provider/Dashboard/DashboardScreen/ProviderProfile";
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from "react-native-responsive-screen";
-import Header from "./DashComponent/Header";
+import Header from "../../../component/Header";
 
 const DashboardConsumer = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -25,7 +24,7 @@ const DashboardConsumer = () => {
       ) : (
         <Profile />
       )}
-      {selectedTab == 0 ? (
+      {/* {selectedTab == 0 ? (
         <Header name={"Shops"} />
       ) : selectedTab == 1 ? (
         <Header name={"Location"} />
@@ -33,7 +32,7 @@ const DashboardConsumer = () => {
         <Header name={"Help"} />
       ) : (
         <Header name={"Profile"} />
-      )}
+      )} */}
       <View style={styles.bottomNavigation}>
         <TouchableOpacity
           style={styles.btn}
